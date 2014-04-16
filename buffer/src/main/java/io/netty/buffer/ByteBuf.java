@@ -710,6 +710,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract short getUnsignedByte(int index);
 
     /**
+     * <pre>
+     * 获取index位置的short类型。short类型是16位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+2之间的内容，不包括index+2 	
+     * </pre>
+     * 
      * Gets a 16-bit short integer at the specified absolute {@code index} in
      * this buffer.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -721,6 +727,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract short getShort(int index);
 
     /**
+     * <pre>
+     * 获取index位置的short类型。short类型是16位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+2之间的内容，不包括index+2 	
+     * 
+     * TODO 不明白这个unsign的含义
+     * </pre>
+     * 
      * Gets an unsigned 16-bit short integer at the specified absolute
      * {@code index} in this buffer.  This method does not modify
      * {@code readerIndex} or {@code writerIndex} of this buffer.
@@ -732,6 +746,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int getUnsignedShort(int index);
 
     /**
+     * <pre>
+     * 获取index位置的medium类型。medium类型是16位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+3之间的内容，不包括index+3
+     * 
+     * TODO java中貌似没有medium。	
+     * </pre>
+     * 
      * Gets a 24-bit medium integer at the specified absolute {@code index} in
      * this buffer.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -743,6 +765,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   getMedium(int index);
 
     /**
+     * <pre>
+     * 获取index位置的medium类型。medium类型是24位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+3之间的内容，不包括index+3
+     * 
+     * TODO java中貌似没有medium。	
+     * </pre>
+     * 
      * Gets an unsigned 24-bit medium integer at the specified absolute
      * {@code index} in this buffer.  This method does not modify
      * {@code readerIndex} or {@code writerIndex} of this buffer.
@@ -754,6 +784,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   getUnsignedMedium(int index);
 
     /**
+     * <pre>
+     * 获取index位置的int类型。int类型是32位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+4之间的内容，不包括index+4
+     * </pre>
+     * 
      * Gets a 32-bit integer at the specified absolute {@code index} in
      * this buffer.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -765,6 +801,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   getInt(int index);
 
     /**
+     * <pre>
+     * 获取index位置的int类型。int类型是32位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+4之间的内容，不包括index+4
+     * 
+     * TODO UNSIGN
+     * </pre>
+     * 
      * Gets an unsigned 32-bit integer at the specified absolute {@code index}
      * in this buffer.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -776,6 +820,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract long  getUnsignedInt(int index);
 
     /**
+     * <pre>
+     * 获取index位置的Long类型。int类型是64位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+8之间的内容，不包括index+8
+     * 
+     * TODO 为什么这里又没有unsign
+     * </pre>
+     * 
      * Gets a 64-bit long integer at the specified absolute {@code index} in
      * this buffer.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -787,6 +839,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract long  getLong(int index);
 
     /**
+     * <pre>
+     * 获取UTF-16格式的字符。占据2位。
+     * 
+     * TODO 是否会涉及到字符编码的问题？还是说他就是故意要UTF-16格式的?
+     * </pre>
+     * 
      * Gets a 2-byte UTF-16 character at the specified absolute
      * {@code index} in this buffer.  This method does not modify
      * {@code readerIndex} or {@code writerIndex} of this buffer.
@@ -798,6 +856,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract char  getChar(int index);
 
     /**
+     * <pre>
+     * 获取index位置的float类型。float类型是32位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+4之间的内容，不包括index+4
+     * </pre>
+     * 
      * Gets a 32-bit floating point number at the specified absolute
      * {@code index} in this buffer.  This method does not modify
      * {@code readerIndex} or {@code writerIndex} of this buffer.
@@ -809,6 +873,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract float getFloat(int index);
 
     /**
+     * <pre>
+     * 获取index位置的double类型。double类型是64位。
+     * ByteBuf是字节组成的buffer。1字节=8bit。
+     * 所以获取的是index -> index+8之间的内容，不包括index+8
+     * </pre>
+     * 
      * Gets a 64-bit floating point number at the specified absolute
      * {@code index} in this buffer.  This method does not modify
      * {@code readerIndex} or {@code writerIndex} of this buffer.
@@ -820,6 +890,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract double getDouble(int index);
 
     /**
+     * <pre>
+     * 将当前ByteBuf的内容从index开始扔到dst中去。直到dst不可写为止，返回的是dst。
+     * 这会有几种可能。
+     * 1. 全部写进去，dst还有可写的位置
+     * 2. 刚好全部写进去
+     * 3. 被截断。只有一部分被写入。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index} until the destination becomes
      * non-writable.  This method is basically same with
@@ -838,6 +916,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, ByteBuf dst);
 
     /**
+     * <pre>
+     * 和getBytes(int index, ByteBuf dst)意义差不多，不同的是getBytes方法只获取
+     * 从index开始长度为length的数据到dst。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index}.  This method is basically same
      * with {@link #getBytes(int, ByteBuf, int, int)}, except that this
@@ -858,6 +941,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, ByteBuf dst, int length);
 
     /**
+     * <pre>
+     * 将当前byte从index位置开始的length长度的内容复制到dst数组，并从dst的第dstIndex个下标开始。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex}
@@ -877,6 +964,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, ByteBuf dst, int dstIndex, int length);
 
     /**
+     * <pre>
+     * 将当前byte从index位置开始的length长度的内容复制到dst数组，并从dst的第dstIndex个下标开始。
+     * 之前的是copy到ByteBuf，这回是真的copy到一个byte数组。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -890,6 +982,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, byte[] dst);
 
     /**
+     * <pre>
+     * 将当前byte从index位置开始的length长度的内容复制到dst数组，并从dst的第dstIndex个下标开始。
+     * 之前的一个同样参数的方法是copy到ByteBuf，这个是真的copy到数组。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex}
@@ -909,6 +1006,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, byte[] dst, int dstIndex, int length);
 
     /**
+     * <pre>
+     * 拷贝byte信息到jdk-nio的ByteBuffer。从第index个下表开始，直到到达limit为止。	
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the specified absolute {@code index} until the destination's position
      * reaches its limit.
@@ -923,6 +1024,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, ByteBuffer dst);
 
     /**
+     * <pre>
+     * 从index开始的length长度的Byte被copy到输出流OutputStream中。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified stream starting at the
      * specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -940,6 +1045,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf getBytes(int index, OutputStream out, int length) throws IOException;
 
     /**
+     * <pre>
+     * 将当前byte的内容从下标index开始，长度为length的内容copy到GatheringByteChannel中。
+     * 
+     * GatheringByteChannel是什么？ TODO	
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified channel starting at the
      * specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -959,6 +1070,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int getBytes(int index, GatheringByteChannel out, int length) throws IOException;
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置boolean类型。会占据一个字节。
+     * </pre>
+     * 
      * Sets the specified boolean at the specified absolute {@code index} in this
      * buffer.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -971,6 +1086,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBoolean(int index, boolean value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置byte类型。会占据一个字节。
+     * 
+     * TODO  这里的value是int类型，具体实现会转换为byte??
+     * </pre>
+     * 
      * Sets the specified byte at the specified absolute {@code index} in this
      * buffer.  The 24 high-order bits of the specified value are ignored.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -983,6 +1104,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setByte(int index, int value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置short类型。会占据2个字节。
+     * 
+     * TODO 一样的问题，这里的value为什么不直接设置为short类型
+     * </pre>
+     * 
      * Sets the specified 16-bit short integer at the specified absolute
      * {@code index} in this buffer.  The 16 high-order bits of the specified
      * value are ignored.
@@ -996,6 +1123,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setShort(int index, int value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置"Medium"类型。会占据3个字节。
+     * </pre>
+     * 
      * Sets the specified 24-bit medium integer at the specified absolute
      * {@code index} in this buffer.  Please note that the most significant
      * byte is ignored in the specified value.
@@ -1009,6 +1140,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setMedium(int index, int   value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置int类型。会占据4个字节。
+     * </pre>
+     * 
      * Sets the specified 32-bit integer at the specified absolute
      * {@code index} in this buffer.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1021,6 +1156,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setInt(int index, int   value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置long类型。会占据8个字节。
+     * </pre>
+     * 
      * Sets the specified 64-bit long integer at the specified absolute
      * {@code index} in this buffer.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1033,6 +1172,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setLong(int index, long  value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置char类型。 UTF-16格式。会占据2个字节。
+     * 
+     * TODO: 传入参数是value?
+     * </pre>
+     * 
      * Sets the specified 2-byte UTF-16 character at the specified absolute
      * {@code index} in this buffer.
      * The 16 high-order bits of the specified value are ignored.
@@ -1046,6 +1191,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setChar(int index, int value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置float类型。会占据4个字节。
+     * </pre>
+     * 
      * Sets the specified 32-bit floating-point number at the specified
      * absolute {@code index} in this buffer.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1058,6 +1207,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setFloat(int index, float value);
 
     /**
+     * <pre>
+     * 在指定位置的下标下设置double类型。会占据8个字节。
+     * </pre>
+     * 
      * Sets the specified 64-bit floating-point number at the specified
      * absolute {@code index} in this buffer.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1070,6 +1223,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setDouble(int index, double value);
 
     /**
+     * <pre>
+     * 将src中的内容开始复制到当前buffer(从index开始)中。
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the specified absolute {@code index} until the source buffer becomes
      * unreadable.  This method is basically same with
@@ -1088,6 +1245,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, ByteBuf src);
 
     /**
+     * <pre>
+     * 将src中的内容开始复制到当前buffer(从index开始)中, 只复制length个。
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the specified absolute {@code index}.  This method is basically same
      * with {@link #setBytes(int, ByteBuf, int, int)}, except that this
@@ -1108,6 +1269,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, ByteBuf src, int length);
 
     /**
+     * <pre>
+     * 将src中的内容从srcIndex开始复制到当前buffer(从index开始)中。
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex}
@@ -1127,6 +1292,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, ByteBuf src, int srcIndex, int length);
 
     /**
+     * <pre>
+     * 将src数组中的内容开始复制到当前buffer(从index开始)中。
+     * </pre>
+     * 
      * Transfers the specified source array's data to this buffer starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1140,6 +1309,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, byte[] src);
 
     /**
+     * <pre>
+     * 将src数组中的内容从srcIndex开始复制到当前buffer(从index开始)中，长度限制为length。
+     * </pre>
+     * 
      * Transfers the specified source array's data to this buffer starting at
      * the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1155,6 +1328,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, byte[] src, int srcIndex, int length);
 
     /**
+     * <pre>
+     * 将src(src是jdk-nio的ByteBuffer)中的内容开始复制到当前buffer(从index开始)中。
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the specified absolute {@code index} until the source buffer's position
      * reaches its limit.
@@ -1169,6 +1346,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setBytes(int index, ByteBuffer src);
 
     /**
+     * <pre>
+     * 将inputStream输入流中的内容开始复制到当前buffer(从index开始)中，并限定复制长度为length。。
+     * </pre>
+     * 
      * Transfers the content of the specified source stream to this buffer
      * starting at the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1188,6 +1369,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int setBytes(int index, InputStream in, int length) throws IOException;
 
     /**
+     * <pre>
+     * 将src中的内容开始复制到当前buffer(从index开始)中。
+     * 
+     * ScatteringByteChannel是什么。 TODO
+     * </pre>
+     * 
      * Transfers the content of the specified source channel to this buffer
      * starting at the specified absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1207,6 +1394,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int  setBytes(int index, ScatteringByteChannel in, int length) throws IOException;
 
     /**
+     * <pre>
+     * 把当前buffer从index开始，长度为length的内容置为0x00. 有点清空的意思。
+     * </pre>
+     * 
      * Fills this buffer with <tt>NUL (0x00)</tt> starting at the specified
      * absolute {@code index}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -1221,6 +1412,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf setZero(int index, int length);
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个boolean类型，同时readerIndex增加1.
+     * </pre>
+     * 
      * Gets a boolean at the current {@code readerIndex} and increases
      * the {@code readerIndex} by {@code 1} in this buffer.
      *
@@ -1230,6 +1425,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract boolean readBoolean();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个byte类型，同时readerIndex增加1.
+     * </pre>
+     * 
      * Gets a byte at the current {@code readerIndex} and increases
      * the {@code readerIndex} by {@code 1} in this buffer.
      *
@@ -1239,6 +1438,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract byte  readByte();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个short类型，同时readerIndex增加1.
+     * 
+     * 不明白这里的Unsigned的含义  TODO
+     * </pre>
+     * 
      * Gets an unsigned byte at the current {@code readerIndex} and increases
      * the {@code readerIndex} by {@code 1} in this buffer.
      *
@@ -1248,6 +1453,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract short readUnsignedByte();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个short类型，同时readerIndex增加2.
+     * </pre>
+     * 
      * Gets a 16-bit short integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 2} in this buffer.
      *
@@ -1257,6 +1466,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract short readShort();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个short类型，同时readerIndex增加2.
+     * 
+     * TODO UNSIGN
+     * </pre>
+     * 
      * Gets an unsigned 16-bit short integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 2} in this buffer.
      *
@@ -1276,7 +1491,7 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
 
     /**
      * Gets an unsigned 24-bit medium integer at the current {@code readerIndex}
-     * and increases the {@code readerIndex} by {@code 3} in this buffer.
+     * and increases the {@code readerIndex} by {@code 3} in this buffexr.
      *
      * @throws IndexOutOfBoundsException
      *         if {@code this.readableBytes} is less than {@code 3}
