@@ -1481,6 +1481,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   readUnsignedShort();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个medium类型(int)，同时readerIndex增加3.
+     * </pre>
+     * 
      * Gets a 24-bit medium integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 3} in this buffer.
      *
@@ -1490,6 +1494,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   readMedium();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个medium类型(int)，同时readerIndex增加3.
+     * 
+     * TODO UNSIGN
+     * </pre>
+     * 
      * Gets an unsigned 24-bit medium integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 3} in this buffexr.
      *
@@ -1499,6 +1509,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   readUnsignedMedium();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个int类型，同时readerIndex增加4.
+     * </pre>
+     * 
      * Gets a 32-bit integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 4} in this buffer.
      *
@@ -1508,6 +1522,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int   readInt();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个int类型，同时readerIndex增加4.
+     * </pre>
+     * 
      * Gets an unsigned 32-bit integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 4} in this buffer.
      *
@@ -1517,6 +1535,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract long  readUnsignedInt();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个long类型，同时readerIndex增加8.
+     * </pre>
+     * 
      * Gets a 64-bit integer at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 8} in this buffer.
      *
@@ -1526,6 +1548,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract long  readLong();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个UTF-16的char类型，同时readerIndex增加2.
+     * </pre>
+     * 
      * Gets a 2-byte UTF-16 character at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 2} in this buffer.
      *
@@ -1535,6 +1561,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract char  readChar();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个float类型(int)，同时readerIndex增加4.
+     * </pre>
+     * 
      * Gets a 32-bit floating point number at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 4} in this buffer.
      *
@@ -1544,6 +1574,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract float readFloat();
 
     /**
+     * <pre>
+     * 在当前readerIndex位置获取一个double类型(int)，同时readerIndex增加3.
+     * </pre>
+     * 
      * Gets a 64-bit floating point number at the current {@code readerIndex}
      * and increases the {@code readerIndex} by {@code 8} in this buffer.
      *
@@ -1553,6 +1587,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract double readDouble();
 
     /**
+     * <pre>
+     * 这个方法做了以下事情。
+     * 1. 新创建了一个buffer。
+     * 2. 把源buffer从当前的readerIndex开始一直拷贝length长度的内容到新的buffer。
+     * 3. 源buffer的长度对应的变了(readerInde+length)。
+     * 4. 新的buffer的readerIndex是0. writerIndex就是length，即这个buffer的长度。
+     * </pre>
+     * 
      * Transfers this buffer's data to a newly created buffer starting at
      * the current {@code readerIndex} and increases the {@code readerIndex}
      * by the number of the transferred bytes (= {@code length}).
@@ -1569,6 +1611,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(int length);
 
     /**
+     * <pre>
+     * 切片返回。
+     * 从当前的readerIndex开始，返回长度为length的切片。切片buffer是新建的。
+     * </pre>
+     * 
      * Returns a new slice of this buffer's sub-region starting at the current
      * {@code readerIndex} and increases the {@code readerIndex} by the size
      * of the new slice (= {@code length}).
@@ -1583,6 +1630,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readSlice(int length);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到dst，直到dst不可写为止。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} until the destination becomes
      * non-writable, and increases the {@code readerIndex} by the number of the
@@ -1599,6 +1651,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(ByteBuf dst);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到dst，一共写length个长度。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} and increases the {@code readerIndex}
      * by the number of the transferred bytes (= {@code length}).  This method
@@ -1614,6 +1671,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(ByteBuf dst, int length);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到dst(从dst的dstIndex开始)，直到dst不可写为止。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} and increases the {@code readerIndex}
      * by the number of the transferred bytes (= {@code length}).
@@ -1630,6 +1692,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(ByteBuf dst, int dstIndex, int length);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到dst数组。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} and increases the {@code readerIndex}
      * by the number of the transferred bytes (= {@code dst.length}).
@@ -1640,6 +1707,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(byte[] dst);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到dst(从dst的dstIndex开始)。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} and increases the {@code readerIndex}
      * by the number of the transferred bytes (= {@code length}).
@@ -1655,6 +1727,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(byte[] dst, int dstIndex, int length);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始一直写到nioBuffer，直到nioBuffer的限度到limit为止。
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified destination starting at
      * the current {@code readerIndex} until the destination's position
      * reaches its limit, and increases the {@code readerIndex} by the
@@ -1667,6 +1744,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(ByteBuffer dst);
 
     /**
+     * <pre>
+     * 将当前的buffer内容从readerIndex开始,一共写length长度到输出流OutputStream
+     * 其中当前buffer的readerIndex值也会增长。
+     * </pre>
+     * 
      * Transfers this buffer's data to the specified stream starting at the
      * current {@code readerIndex}.
      *
@@ -1680,6 +1762,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf readBytes(OutputStream out, int length) throws IOException;
 
     /**
+     * TODO 不懂
+     * 
      * Transfers this buffer's data to the specified stream starting at the
      * current {@code readerIndex}.
      *
@@ -1695,6 +1779,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int  readBytes(GatheringByteChannel out, int length) throws IOException;
 
     /**
+     * <pre>
+     * 字面意思即为跳过。
+     * 实际上就是将readerIndex增length个长度。
+     * </pre>
+     * 
      * Increases the current {@code readerIndex} by the specified
      * {@code length} in this buffer.
      *
@@ -1704,6 +1793,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf skipBytes(int length);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个boolean值。
+     * boolean占用一个字节，所以writerIndex插入后+1.
+     * </pre>
+     * 
      * Sets the specified boolean at the current {@code writerIndex}
      * and increases the {@code writerIndex} by {@code 1} in this buffer.
      *
@@ -1713,6 +1807,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBoolean(boolean value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个byte值。
+     * byte占用一个字节，所以writerIndex插入后+1.
+     * 
+     * TODO 下边这句话不知道怎么理解。
+     * The 24 high-order bits of the specified value are ignored.
+     * </pre>
+     * 
      * Sets the specified byte at the current {@code writerIndex}
      * and increases the {@code writerIndex} by {@code 1} in this buffer.
      * The 24 high-order bits of the specified value are ignored.
@@ -1723,6 +1825,14 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeByte(int value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个short值。
+     * short占用一个字节，所以writerIndex插入后+2.
+     * 
+     * TODO 下边这句话不知道怎么理解。
+     * The 24 high-order bits of the specified value are ignored.
+     * </pre>
+     * 
      * Sets the specified 16-bit short integer at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 2}
      * in this buffer.  The 16 high-order bits of the specified value are ignored.
@@ -1733,6 +1843,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeShort(int value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个medium类型。
+     * medium占用3个字节，所以writerIndex插入后+3.
+     * </pre>
+     * 
      * Sets the specified 24-bit medium integer at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 3}
      * in this buffer.
@@ -1743,6 +1858,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeMedium(int   value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个int值。
+     * int占用4个字节，所以writerIndex插入后+4.
+     * </pre>
+     * 
      * Sets the specified 32-bit integer at the current {@code writerIndex}
      * and increases the {@code writerIndex} by {@code 4} in this buffer.
      *
@@ -1752,6 +1872,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeInt(int   value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个long值。
+     * long占用8个字节，所以writerIndex插入后+8.
+     * </pre>
+     * 
      * Sets the specified 64-bit long integer at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 8}
      * in this buffer.
@@ -1762,6 +1887,13 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeLong(long  value);
 
     /**
+     * <pre>
+     * 设定2字节的UTF-16编码的字符到当前writerIndex位置
+     * 
+     * TODO 下边这句话不知道怎么理解。
+     * The 16 high-order bits of the specified value are ignored.
+     * </pre>
+     * 
      * Sets the specified 2-byte UTF-16 character at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 2}
      * in this buffer.  The 16 high-order bits of the specified value are ignored.
@@ -1772,6 +1904,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeChar(int value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个float值。
+     * float占用4个字节，所以writerIndex插入后+4.
+     * </pre>
+     * 
      * Sets the specified 32-bit floating point number at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 4}
      * in this buffer.
@@ -1782,6 +1919,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeFloat(float value);
 
     /**
+     * <pre>
+     * 在当前writerIndex为止插入一个double值。
+     * double占用8个字节，所以writerIndex插入后+8.
+     * </pre>
+     * 
      * Sets the specified 64-bit floating point number at the current
      * {@code writerIndex} and increases the {@code writerIndex} by {@code 8}
      * in this buffer.
