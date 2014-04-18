@@ -1934,6 +1934,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeDouble(double value);
 
     /**
+     * <pre>
+     * 将src的数据全部复制到当前buffer的末尾。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the current {@code writerIndex} until the source buffer becomes
      * unreadable, and increases the {@code writerIndex} by the number of
@@ -1950,6 +1954,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(ByteBuf src);
 
     /**
+     * <pre>
+     * 将src的数据前length个长度复制到当前buffer的末尾。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the current {@code writerIndex} and increases the {@code writerIndex}
      * by the number of the transferred bytes (= {@code length}).  This method
@@ -1967,6 +1975,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(ByteBuf src, int length);
 
     /**
+     * <pre>
+     * 将src的数据从srcIndex开始 全部复制到当前buffer的末尾。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the current {@code writerIndex} and increases the {@code writerIndex}
      * by the number of the transferred bytes (= {@code length}).
@@ -1983,6 +1995,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(ByteBuf src, int srcIndex, int length);
 
     /**
+     * <pre>
+     * 将src数组的数据全部复制到当前buffer的末尾。同时也增大了当前buffer的writerIndex(增大数量为src.length)。	
+     * </pre>
+     * 
      * Transfers the specified source array's data to this buffer starting at
      * the current {@code writerIndex} and increases the {@code writerIndex}
      * by the number of the transferred bytes (= {@code src.length}).
@@ -1993,6 +2009,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(byte[] src);
 
     /**
+     * <pre>
+     * 将src的数据从srcIndex开始复制length个长度到当前buffer的末尾。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the specified source array's data to this buffer starting at
      * the current {@code writerIndex} and increases the {@code writerIndex}
      * by the number of the transferred bytes (= {@code length}).
@@ -2009,6 +2029,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(byte[] src, int srcIndex, int length);
 
     /**
+     * <pre>
+     * 将src的数据复制到当前buffer的末尾(直到ByteBuffer的pos到达limit。)。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the specified source buffer's data to this buffer starting at
      * the current {@code writerIndex} until the source buffer's position
      * reaches its limit, and increases the {@code writerIndex} by the
@@ -2021,6 +2045,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeBytes(ByteBuffer src);
 
     /**
+     * <pre>
+     * 将给定的输入流的数据的前length个长度复制到当前buffer的末尾。同时也增大了当前buffer的writerIndex。	
+     * </pre>
+     * 
      * Transfers the content of the specified stream to this buffer
      * starting at the current {@code writerIndex} and increases the
      * {@code writerIndex} by the number of the transferred bytes.
@@ -2037,6 +2065,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int  writeBytes(InputStream in, int length) throws IOException;
 
     /**
+     * TODO
+     * 
      * Transfers the content of the specified channel to this buffer
      * starting at the current {@code writerIndex} and increases the
      * {@code writerIndex} by the number of the transferred bytes.
@@ -2053,6 +2083,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int  writeBytes(ScatteringByteChannel in, int length) throws IOException;
 
     /**
+     * <pre>
+     * 从writerIndex开始一直length个长度的位置都设置0x00.
+     * </pre>
+     * 
      * Fills this buffer with <tt>NUL (0x00)</tt> starting at the current
      * {@code writerIndex} and increases the {@code writerIndex} by the
      * specified {@code length}.
@@ -2065,6 +2099,12 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf writeZero(int length);
 
     /**
+     * <pre>
+     * 找到value在fromInde - toIndex之间第一次出现的位置索引。
+     * 
+     * 如果fromIndex > toIndex则会翻转搜索?(这个要实际看看是否和我想的一样) TODO
+     * </pre>
+     * 
      * Locates the first occurrence of the specified {@code value} in this
      * buffer.  The search takes place from the specified {@code fromIndex}
      * (inclusive)  to the specified {@code toIndex} (exclusive).
@@ -2081,6 +2121,15 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int indexOf(int fromIndex, int toIndex, byte value);
 
     /**
+     * <pre>
+     * 这个方法的名字感觉会造成歧义。本身的含义是:
+     * 
+     * 返回在readerIndex - writerIndex之间第一次出现的value的下标索引，其中要返回的下标索引
+     * 包括readerIndex但是不包括writerIndex。
+     * 
+     * TODO 如果两个index相等怎么办?
+     * </pre>
+     * 
      * Locates the first occurrence of the specified {@code value} in this
      * buffer.  The search takes place from the current {@code readerIndex}
      * (inclusive) to the current {@code writerIndex} (exclusive).
@@ -2094,6 +2143,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int bytesBefore(byte value);
 
     /**
+     * <pre>
+     * 返回从readerIndex - (readerIndex+length) 之间，value第一次出现的下标索引。
+     * </pre>
+     * 
      * Locates the first occurrence of the specified {@code value} in this
      * buffer.  The search starts from the current {@code readerIndex}
      * (inclusive) and lasts for the specified {@code length}.
@@ -2110,6 +2163,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int bytesBefore(int length, byte value);
 
     /**
+     * <pre>
+     * 从当前bufer的index - index+length中选出value出现的第一次的下标。
+     * </pre>
+     * 
      * Locates the first occurrence of the specified {@code value} in this
      * buffer.  The search starts from the specified {@code index} (inclusive)
      * and lasts for the specified {@code length}.
