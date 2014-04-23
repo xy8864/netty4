@@ -2183,6 +2183,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int bytesBefore(int index, int length, byte value);
 
     /**
+     * TODO 没懂
+     * 
      * Iterates over the readable bytes of this buffer with the specified {@code processor} in ascending order.
      *
      * @return {@code -1} if the processor iterated to or beyond the end of the readable bytes.
@@ -2191,6 +2193,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int forEachByte(ByteBufProcessor processor);
 
     /**
+     * TODO 没懂
+     * 
      * Iterates over the specified area of this buffer with the specified {@code processor} in ascending order.
      * (i.e. {@code index}, {@code (index + 1)},  .. {@code (index + length - 1)})
      *
@@ -2200,6 +2204,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int forEachByte(int index, int length, ByteBufProcessor processor);
 
     /**
+     * TODO 没懂
+     * 
      * Iterates over the readable bytes of this buffer with the specified {@code processor} in descending order.
      *
      * @return {@code -1} if the processor iterated to or beyond the beginning of the readable bytes.
@@ -2208,6 +2214,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int forEachByteDesc(ByteBufProcessor processor);
 
     /**
+     * TODO 没懂
+     * 
      * Iterates over the specified area of this buffer with the specified {@code processor} in descending order.
      * (i.e. {@code (index + length - 1)}, {@code (index + length - 2)}, ... {@code index})
      *
@@ -2218,6 +2226,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int forEachByteDesc(int index, int length, ByteBufProcessor processor);
 
     /**
+     * <pre>
+     * 把当前的buf的readerIndex - writerIndex之间的内容复制到一个新的ByteBuf。
+     * </pre>
+     * 
      * Returns a copy of this buffer's readable bytes.  Modifying the content
      * of the returned buffer or this buffer does not affect each other at all.
      * This method is identical to {@code buf.copy(buf.readerIndex(), buf.readableBytes())}.
@@ -2227,6 +2239,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf copy();
 
     /**
+     * <pre>
+     * 把当前的buf的readerIndex - writerIndex之间的内容取一个子区间(index, length)复制到一个新的ByteBuf。
+     * </pre>
+     * 
      * Returns a copy of this buffer's sub-region.  Modifying the content of
      * the returned buffer or this buffer does not affect each other at all.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
@@ -2235,16 +2251,24 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf copy(int index, int length);
 
     /**
+     * <pre>
+     * 返回一个当前buffer可读的切片。也即是readerIndex - writerIndex之间。
+     * </pre>
+     * 
      * Returns a slice of this buffer's readable bytes. Modifying the content
      * of the returned buffer or this buffer affects each other's content
      * while they maintain separate indexes and marks.  This method is
-     * identical to {@code buf.slice(buf.readerIndex(), buf.readableBytes())}.
+     * identical to {@code buf.slice(buf.readerIndex), buf.readableBytes())}.
      * This method does not modify {@code readerIndex} or {@code writerIndex} of
      * this buffer.
      */
     public abstract ByteBuf slice();
 
     /**
+     * <pre>
+     * 返回一个当前buffer可读的切片。也即是readerIndex - writerIndex之间的子区间，从index开始，取length个长度。。
+     * </pre>
+     * 
      * Returns a slice of this buffer's sub-region. Modifying the content of
      * the returned buffer or this buffer affects each other's content while
      * they maintain separate indexes and marks.
@@ -2254,6 +2278,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuf slice(int index, int length);
 
     /**
+     * TODO 没懂
+     * 
      * Returns a buffer which shares the whole region of this buffer.
      * Modifying the content of the returned buffer or this buffer affects
      * each other's content while they maintain separate indexes and marks.
@@ -2279,6 +2305,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int nioBufferCount();
 
     /**
+     * TODO 没懂
+     * 
      * Exposes this buffer's readable bytes as an NIO {@link ByteBuffer}.  The returned buffer
      * shares the content with this buffer, while changing the position and limit of the returned
      * NIO buffer does not affect the indexes and marks of this buffer.  This method is identical
@@ -2297,6 +2325,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuffer nioBuffer();
 
     /**
+     * TODO 没懂
+     * 
      * Exposes this buffer's sub-region as an NIO {@link ByteBuffer}.  The returned buffer
      * shares the content with this buffer, while changing the position and limit of the returned
      * NIO buffer does not affect the indexes and marks of this buffer.  This method does not
@@ -2314,11 +2344,15 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuffer nioBuffer(int index, int length);
 
     /**
+     * TODO  不懂 内部使用?
+     * 
      * Internal use only: Exposes the internal NIO buffer.
      */
     public abstract ByteBuffer internalNioBuffer(int index, int length);
 
     /**
+     * TODO 不懂
+     * 
      * Exposes this buffer's readable bytes as an NIO {@link ByteBuffer}'s.  The returned buffer
      * shares the content with this buffer, while changing the position and limit of the returned
      * NIO buffer does not affect the indexes and marks of this buffer. This method does not
@@ -2337,6 +2371,8 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuffer[] nioBuffers();
 
     /**
+     * TODO 不懂
+     * 
      * Exposes this buffer's bytes as an NIO {@link ByteBuffer}'s for the specified index and length
      * The returned buffer shares the content with this buffer, while changing the position and limit
      * of the returned NIO buffer does not affect the indexes and marks of this buffer. This method does
@@ -2354,6 +2390,13 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract ByteBuffer[] nioBuffers(int index, int length);
 
     /**
+     * <pre>
+     * 没有恰当的理解这个翻译。  TODO
+     * 
+     * 当前仅当当前buffer有后备字节数组的时候返回true。 (怎么理解这个backing byte array)
+     * 如果这个方法可以返回true，你就可以安全的调用array()方法和arrayOffset()方法啦。
+     * </pre>
+     * 
      * Returns {@code true} if and only if this buffer has a backing byte array.
      * If this method returns true, you can safely call {@link #array()} and
      * {@link #arrayOffset()}.
@@ -2361,6 +2404,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract boolean hasArray();
 
     /**
+     * <pre>
+     * 返回当前buffer的后备字节数组。     TODO 同上，这个backing byte array难倒了我。TODO
+     * </pre>
+     * 
      * Returns the backing byte array of this buffer.
      *
      * @throws UnsupportedOperationException
@@ -2369,6 +2416,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract byte[] array();
 
     /**
+     * <pre>
+     * 什么什么偏移量?都翻译不出来，擦。TODO
+     * </pre>
+     * 
      * Returns the offset of the first byte within the backing byte array of
      * this buffer.
      *
@@ -2378,12 +2429,20 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int arrayOffset();
 
     /**
+     * <pre>
+     * 当且仅当当前buffer有一个指向后备字节数组的低级别的内存地址的引用时候返回true。 尼玛。这个更难懂 。TODO
+     * </pre>
+     * 
      * Returns {@code true} if and only if this buffer has a reference to the low-level memory address that points
      * to the backing data.
      */
     public abstract boolean hasMemoryAddress();
 
     /**
+     * <pre>
+     * 返回指向后备字节数组的第一个字节的低级别内存地址。 TODO
+     * </pre>
+     * 
      * Returns the low-level memory address that point to the first byte of ths backing data.
      *
      * @throws UnsupportedOperationException
@@ -2392,6 +2451,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract long memoryAddress();
 
     /**
+     * <pre>
+     * 将当前buffer从readerIndex开始一直到不能读位置的这段byte信息用指定的字符集输出为字符串。
+     * </pre>
+     * 
      * Decodes this buffer's readable bytes into a string with the specified
      * character set name.  This method is identical to
      * {@code buf.toString(buf.readerIndex(), buf.readableBytes(), charsetName)}.
@@ -2405,6 +2468,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract String toString(Charset charset);
 
     /**
+     * <pre>
+     * 将当前buffer从readerIndex开始一直到不能读位置的这段byte信息用指定的字符集输出为字符串。
+     * 不过这个方法返回的等于说是上边的一个自己，他自己限定了参数index和length。
+     * </pre>
+     * 
      * Decodes this buffer's sub-region into a string with the specified
      * character set.  This method does not modify {@code readerIndex} or
      * {@code writerIndex} of this buffer.
@@ -2412,6 +2480,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract String toString(int index, int length, Charset charset);
 
     /**
+     * <pre>
+     * ByteBuf的hashCode方法。
+     * </pre>
+     * 
      * Returns a hash code which was calculated from the content of this
      * buffer.  If there's a byte array which is
      * {@linkplain #equals(Object) equal to} this array, both arrays should
@@ -2421,6 +2493,15 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int hashCode();
 
     /**
+     * <pre>
+     * equals对象。
+     * 两个ByteBuf如果要equals需要满足下边2个条件。
+     * 1. size相等。
+     * 2. 每个byte的内容相等。
+     * 
+     * ps:该方法不会去比较readerIndex和writerIndex。
+     * </pre>
+     * 
      * Determines if the content of the specified buffer is identical to the
      * content of this array.  'Identical' here means:
      * <ul>
@@ -2436,6 +2517,10 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract boolean equals(Object obj);
 
     /**
+     * <pre>
+     * 比较方法。但是接口没有说的很明白该怎么比较。还是说我没看懂? TODO
+     * </pre>
+     * 
      * Compares the content of the specified buffer to the content of this
      * buffer.  Comparison is performed in the same manner with the string
      * comparison functions of various languages such as {@code strcmp},
@@ -2445,6 +2530,11 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     public abstract int compareTo(ByteBuf buffer);
 
     /**
+     * <pre>
+     * 普通的toString()方法。当前方法不需要返回整个buffer的内容，但需要返回一些关键
+     * 的信息，比如readerIndex, writerIndex, capacity等等。
+     * </pre>
+     * 
      * Returns the string representation of this buffer.  This method does not
      * necessarily return the whole content of the buffer but returns
      * the values of the key properties such as {@link #readerIndex()},
@@ -2453,9 +2543,15 @@ public abstract class ByteBuf implements ReferenceCounted, Comparable<ByteBuf> {
     @Override
     public abstract String toString();
 
+    /**
+     * TODO 没注释 我TM也没看懂
+     */
     @Override
     public abstract ByteBuf retain(int increment);
 
+    /**
+     * TODO 没注释暂时没看懂
+     */
     @Override
     public abstract ByteBuf retain();
 }
