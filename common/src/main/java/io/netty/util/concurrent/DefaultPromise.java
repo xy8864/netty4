@@ -219,6 +219,9 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         return this;
     }
 
+    /**
+     * 同步等待线程执行完毕。
+     */
     @Override
     public Promise<V> sync() throws InterruptedException {
         await();
@@ -242,9 +245,13 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         PlatformDependent.throwException(cause);
     }
 
+    /**
+     * 等待线程结束
+     */
     @Override
     public Promise<V> await() throws InterruptedException {
-        if (isDone()) {
+        // 如果已经执行完就返回自身
+    	if (isDone()) {
             return this;
         }
 
@@ -253,12 +260,18 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         }
 
         synchronized (this) {
+        	// 如果线程没有执行完走下边的流程
             while (!isDone()) {
+            	// 检查死锁 这个不懂 TODO
                 checkDeadLock();
+                
+                // 等待人数+1， 如果总体人数大于32767则会报错。
                 incWaiters();
                 try {
+                	// 开始等待
                     wait();
                 } finally {
+                	// 线程执行完，等待人数-1.
                     decWaiters();
                 }
             }

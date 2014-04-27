@@ -230,6 +230,10 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     }
 
     /**
+     * <pre>
+     * bind方法验证。
+     * </pre>
+     * 
      * Validate all the parameters. Sub-classes may override this, but should
      * call the super method in that case.
      */
@@ -274,6 +278,10 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     }
 
     /**
+     * <pre>
+     * server和client的公共绑定方法。
+     * </pre>
+     * 
      * Create a new {@link Channel} and bind it.
      */
     public ChannelFuture bind(int inetPort) {
@@ -295,9 +303,14 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     }
 
     /**
+     * <pre>
+     * server和client的公共绑定方法。
+     * </pre>
+     * 
      * Create a new {@link Channel} and bind it.
      */
     public ChannelFuture bind(SocketAddress localAddress) {
+    	// 绑定端口前的验证
         validate();
         if (localAddress == null) {
             throw new NullPointerException("localAddress");
@@ -305,9 +318,20 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
         return doBind(localAddress);
     }
 
+    /**
+     * 绑定地址
+     * 
+     * @param localAddress
+     * @return
+     */
     private ChannelFuture doBind(final SocketAddress localAddress) {
+    	// 初始化并注册
         final ChannelFuture regFuture = initAndRegister();
+        
+        // 通道返回
         final Channel channel = regFuture.channel();
+        
+        // 如果有异常的话直接返回
         if (regFuture.cause() != null) {
             return regFuture;
         }
@@ -331,15 +355,22 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     }
 
     final ChannelFuture initAndRegister() {
+    	// 新创建一个通道。
         final Channel channel = channelFactory().newChannel();
         try {
+        	// channel初始化，由子类实现。ServerBootstrap or Bootstrap。
             init(channel);
         } catch (Throwable t) {
             channel.unsafe().closeForcibly();
             return channel.newFailedFuture(t);
         }
-
+        
+        // group()返回的是之前定义好的线程组 EventLoopGroup, bossGroup
+        // AppletDiscardServer最后走的是SingleThreadEvent去完成注册 这里比较难理解
         ChannelFuture regFuture = group().register(channel);
+        
+        // 如果future有异常返回的话..
+        // TODO 如果是异步的话有可能走到这里的时候异常还没来得及抛出来
         if (regFuture.cause() != null) {
             if (channel.isRegistered()) {
                 channel.close();

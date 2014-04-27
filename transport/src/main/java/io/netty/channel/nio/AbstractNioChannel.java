@@ -93,6 +93,13 @@ public abstract class AbstractNioChannel extends AbstractChannel {
         return (NioUnsafe) super.unsafe();
     }
 
+    /**
+     * <pre>
+     * 返回JDK自身的SelectableChannel对象。
+     * </pre>
+     * 
+     * @return
+     */
     protected SelectableChannel javaChannel() {
         return ch;
     }
@@ -327,8 +334,11 @@ public abstract class AbstractNioChannel extends AbstractChannel {
     @Override
     protected void doRegister() throws Exception {
         boolean selected = false;
+        
+        // 无限循环的意思是啥。 TODO
         for (;;) {
             try {
+            	// 在JDK的channel上注册事件 这块没有理解清楚 TODO
                 selectionKey = javaChannel().register(eventLoop().selector, 0, this);
                 return;
             } catch (CancelledKeyException e) {

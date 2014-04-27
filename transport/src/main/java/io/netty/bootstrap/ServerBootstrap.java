@@ -149,6 +149,10 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
     }
 
     /**
+     * <pre>
+     * 给当前的ServerBootstrap设置一个ChannelHandler。ChannelHandler分很多种。
+     * </pre>
+     * 
      * Set the {@link ChannelHandler} which is used to serve the request for the {@link Channel}'s.
      */
     public ServerBootstrap childHandler(ChannelHandler childHandler) {
@@ -167,14 +171,26 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
         return childGroup;
     }
 
+    /**
+     * 服务端channel初始化。
+     * 
+     * TODO 
+     * 1. 为什么关于options&attribute都需要同步
+     * 2. options&attribute的含义
+     */
     @Override
     void init(Channel channel) throws Exception {
+    	// options初始化 在AppletDiscardServer这个简单例子中这里是空的
         final Map<ChannelOption<?>, Object> options = options();
+        
+        // 这个地方为什么要synchronized? 会有多线程并发访问这里?
         synchronized (options) {
             channel.config().setOptions(options);
         }
 
+        // attribute初始化 在AppletDiscardServer这个简单例子中这里是空的
         final Map<AttributeKey<?>, Object> attrs = attrs();
+        // 同上边的关于同步代码段的疑问
         synchronized (attrs) {
             for (Entry<AttributeKey<?>, Object> e: attrs.entrySet()) {
                 @SuppressWarnings("unchecked")
@@ -183,7 +199,10 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
             }
         }
 
+        // 获取和channel相关联的管道对象(ChannelPipeline)
         ChannelPipeline p = channel.pipeline();
+        
+        // 如果有handler的话把handler放到管道的最后
         if (handler() != null) {
             p.addLast(handler());
         }
@@ -202,6 +221,7 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
         p.addLast(new ChannelInitializer<Channel>() {
             @Override
             public void initChannel(Channel ch) throws Exception {
+            	// 向当前的pipeline中添加一个acceptor， 看起来很重要! TODO
                 ch.pipeline().addLast(new ServerBootstrapAcceptor(
                         currentChildGroup, currentChildHandler, currentChildOptions, currentChildAttrs));
             }
@@ -231,6 +251,9 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
         return new Entry[size];
     }
 
+    /**
+     * Server端的接收器
+     */
     private static class ServerBootstrapAcceptor extends ChannelInboundHandlerAdapter {
 
         private final EventLoopGroup childGroup;
@@ -238,7 +261,6 @@ public final class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, Se
         private final Entry<ChannelOption<?>, Object>[] childOptions;
         private final Entry<AttributeKey<?>, Object>[] childAttrs;
 
-        @SuppressWarnings("unchecked")
         ServerBootstrapAcceptor(
                 EventLoopGroup childGroup, ChannelHandler childHandler,
                 Entry<ChannelOption<?>, Object>[] childOptions, Entry<AttributeKey<?>, Object>[] childAttrs) {

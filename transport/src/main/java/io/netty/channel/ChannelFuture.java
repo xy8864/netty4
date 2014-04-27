@@ -160,37 +160,99 @@ import java.util.concurrent.TimeUnit;
  * } else {
  *     // Connection established successfully
  * }
+ * 
+ * TODO  这里的泛型为什么是VOID
  * </pre>
  */
 public interface ChannelFuture extends Future<Void> {
 
     /**
+     * <pre>
+     * 返回当前future关联的channel。
+     * </pre>
+     * 
      * Returns a channel where the I/O operation associated with this
      * future takes place.
      */
     Channel channel();
 
+    // 下边的几个方法都重新定义了接口方法，但是实际上只有泛型上的差异，这么做的好处是...? TODO
+    
+    /**
+     * <pre>
+     * 给当前的Future添加一个listener。当future拿到线程执行结果时候，listener被执行。
+     * </pre>
+     */
     @Override
     ChannelFuture addListener(GenericFutureListener<? extends Future<? super Void>> listener);
 
+    /**
+     * <pre>
+     * 给当前的Future添加多个listener。当future拿到线程执行结果时候，listener被执行。
+     * </pre>
+     */
     @Override
     ChannelFuture addListeners(GenericFutureListener<? extends Future<? super Void>>... listeners);
 
+    /**
+     * <pre>
+     * 移除一个指定的listener。
+     * </pre>
+     */
     @Override
     ChannelFuture removeListener(GenericFutureListener<? extends Future<? super Void>> listener);
 
+    /**
+     * <pre>
+     * 移除多个指定的listener。
+     * </pre>
+     */
     @Override
     ChannelFuture removeListeners(GenericFutureListener<? extends Future<? super Void>>... listeners);
 
+    /**
+     * <pre>
+     * 同步方法，等待。直到future返回ok。并且如果future失败的话异常重抛(TODO:后边这句没理解。)。
+     * </pre>
+     */
     @Override
     ChannelFuture sync() throws InterruptedException;
 
+    /**
+     * <pre>
+     * 同步方法，等待。直到future返回ok。并且如果future失败的话异常重抛(TODO:后边这句没理解。)。
+     * 
+     * 如果抓到中断异常则丢弃它。
+     * </pre>
+     */
     @Override
     ChannelFuture syncUninterruptibly();
 
+    /**
+     * <pre>
+     * 方法等待。等待future完成。
+     * </pre>
+     */
     @Override
     ChannelFuture await() throws InterruptedException;
 
+    /**
+     * <pre>
+     * 方法等待。等待future完成。如果抓到中断异常则丢弃它。
+     * </pre>
+     */
     @Override
     ChannelFuture awaitUninterruptibly();
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,14 +15,12 @@
  */
 package io.netty.example.applet;
 
-import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
+import io.netty.channel.EventLoopGroup; 
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -56,14 +54,14 @@ public class AppletDiscardServer extends JApplet {
             // group方法其实就是设置了引导类中的boss线程组对象和worker线程组对象。
             // channel方法主要来负责设置当前对象的channel工厂
             bootstrap.group(bossGroup, workerGroup)
-                     .channel(NioServerSocketChannel.class)				// why need a class ?
-                     .childHandler(new ChannelInitializer<SocketChannel>() {
+                     .channel(NioServerSocketChannel.class)								// why need a class ?
+                     .childHandler(new ChannelInitializer<SocketChannel>() {			// 暂时可以理解为给当前的channel简单的初始化
                          @Override
                          public void initChannel(SocketChannel ch) throws Exception {
-                             ch.pipeline().addLast(new DiscardServerHandler());			// add some handler to pipeline
+                             ch.pipeline().addLast(new DiscardServerHandler());			// 初始化: add some handler to pipeline
                          }
                      });
-            ChannelFuture f = bootstrap.bind(9999).sync();				// bind port to 9999.
+            ChannelFuture f = bootstrap.bind(9999).sync();				// bind port to 9999. SYNC:DefaultChannelPromise
             f.channel().closeFuture().sync();							// 这里用2个sync是为了保证让方法走完？ 不然如果是同步可能会阻塞到这里
         } catch (Exception ex) {
             ex.printStackTrace();

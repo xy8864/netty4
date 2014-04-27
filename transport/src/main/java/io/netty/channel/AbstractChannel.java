@@ -396,6 +396,8 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             if (eventLoop == null) {
                 throw new NullPointerException("eventLoop");
             }
+            
+            // 如果已经注册，则promise设置错误信息
             if (isRegistered()) {
                 promise.setFailure(new IllegalStateException("registered to an event loop already"));
                 return;
@@ -429,18 +431,33 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
         }
 
+        /**
+         * 被放到线程中去跑的私有注册方法。
+         * 
+         * @param promise
+         */
         private void register0(ChannelPromise promise) {
             try {
+            	// 艹 下边这个翻译真还没理解  TODO
                 // check if the channel is still open as it could be closed in the mean time when the register
                 // call was outside of the eventLoop
                 if (!promise.setUncancellable() || !ensureOpen(promise)) {
                     return;
                 }
                 doRegister();
+                
+                // registered状态更新
                 registered = true;
+                
+                // promise标记success。 TODO
                 safeSetSuccess(promise);
+                
+                // 这里应该是事件通知发送 TODO
                 pipeline.fireChannelRegistered();
+                
+                // 是否绑定成功 TODO
                 if (isActive()) {
+                	// 继续发送事件通知
                     pipeline.fireChannelActive();
                 }
             } catch (Throwable t) {

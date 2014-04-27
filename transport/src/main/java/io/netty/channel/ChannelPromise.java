@@ -20,6 +20,12 @@ import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.Promise;
 
 /**
+ * <pre>
+ * 单从字面意思来看，是通道承诺。不明白。
+ * 
+ * 从官方解释的意思来看，意思是该channel是可写的。 没有搞懂这个ChannelPromise本身存在的场景意义。 TODO
+ * </pre>
+ * 
  * Special {@link ChannelFuture} which is writable.
  */
 public interface ChannelPromise extends ChannelFuture, Promise<Void> {
@@ -30,13 +36,18 @@ public interface ChannelPromise extends ChannelFuture, Promise<Void> {
     @Override
     ChannelPromise setSuccess(Void result);
 
+    @Override
+    ChannelPromise setFailure(Throwable cause);
+    
     ChannelPromise setSuccess();
 
     boolean trySuccess();
 
-    @Override
-    ChannelPromise setFailure(Throwable cause);
-
+    /**
+     * 下边开始又是重写了ChannelFuture(Future)接口的方法。我就不再具体注释了。
+     * 
+     * start.
+     */
     @Override
     ChannelPromise addListener(GenericFutureListener<? extends Future<? super Void>> listener);
 
@@ -60,4 +71,9 @@ public interface ChannelPromise extends ChannelFuture, Promise<Void> {
 
     @Override
     ChannelPromise awaitUninterruptibly();
+    
+    /**
+     * end.
+     */
 }
+

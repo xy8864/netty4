@@ -153,6 +153,10 @@ public interface Channel extends AttributeMap, Comparable<Channel> {
     boolean isWritable();
 
     /**
+     * <pre>
+     * 返回一个Unsafe对象。这个对象只是在netty内部使用(提供一些不安全的操作)
+     * </pre>
+     * 
      * Returns an <em>internal-use-only</em> object that provides unsafe operations.
      */
     Unsafe unsafe();

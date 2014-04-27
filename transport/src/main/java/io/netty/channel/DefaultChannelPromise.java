@@ -22,6 +22,10 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
 /**
+ * <pre>
+ * ChannelPromise的默认实现。强烈建议使用Channel.newPromise()方法去创建一个新的ChannelPromise，而不是调用确切的构造器(WHY? TODO)。
+ * </pre>
+ * 
  * The default {@link ChannelPromise} implementation.  It is recommended to use {@link Channel#newPromise()} to create
  * a new {@link ChannelPromise} rather than calling the constructor explicitly.
  */
@@ -112,6 +116,9 @@ public class DefaultChannelPromise extends DefaultPromise<Void> implements Chann
         return this;
     }
 
+    /**
+     * 等待future同步完成。调用父类DefaultPromise的sync()方法。
+     */
     @Override
     public ChannelPromise sync() throws InterruptedException {
         super.sync();

@@ -16,11 +16,20 @@
 package io.netty.util.concurrent;
 
 /**
+ * <pre>
+ * Promise是这样一种Future，他是可写的。 TODO
+ * </pre>
+ * 
  * Special {@link Future} which is writable.
  */
 public interface Promise<V> extends Future<V> {
 
     /**
+     * <pre>
+     * 设置当前future为成功，并唤醒所有监听的listener。
+     * 如果当前future已经是成功或者失败的状态，则抛出IllegalStateException。
+     * </pre>
+     * 
      * Marks this future as a success and notifies all
      * listeners.
      *
@@ -29,6 +38,10 @@ public interface Promise<V> extends Future<V> {
     Promise<V> setSuccess(V result);
 
     /**
+     * <pre>
+     * 设置当前future为成功，并唤醒所有监听的listener。
+     * </pre>
+     * 
      * Marks this future as a success and notifies all
      * listeners.
      *
@@ -39,6 +52,11 @@ public interface Promise<V> extends Future<V> {
     boolean trySuccess(V result);
 
     /**
+     * <pre>
+     * 设置当前future为失败，并唤醒所有监听的listener。
+     * 如果当前future已经是成功或者失败的状态，则抛出IllegalStateException。
+     * </pre>
+     * 
      * Marks this future as a failure and notifies all
      * listeners.
      *
@@ -47,6 +65,10 @@ public interface Promise<V> extends Future<V> {
     Promise<V> setFailure(Throwable cause);
 
     /**
+     * <pre>
+     * 设置当前future为失败，并唤醒所有监听的listener。
+     * </pre>
+     * 
      * Marks this future as a failure and notifies all
      * listeners.
      *
@@ -57,6 +79,10 @@ public interface Promise<V> extends Future<V> {
     boolean tryFailure(Throwable cause);
 
     /**
+     * <pre>
+     * 设置当前future为不可cancel状态。
+     * </pre>
+     * 
      * Make this future impossible to cancel.
      *
      * @return {@code true} if and only if successfully marked this future as uncancellable or it is already done
@@ -64,6 +90,8 @@ public interface Promise<V> extends Future<V> {
      */
     boolean setUncancellable();
 
+    // 以下开始重写Future接口中的方法。
+    
     @Override
     Promise<V> addListener(GenericFutureListener<? extends Future<? super V>> listener);
 
