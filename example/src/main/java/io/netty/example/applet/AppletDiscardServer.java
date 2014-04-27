@@ -62,7 +62,7 @@ public class AppletDiscardServer extends JApplet {
                          }
                      });
             ChannelFuture f = bootstrap.bind(9999).sync();				// bind port to 9999. SYNC:DefaultChannelPromise
-            f.channel().closeFuture().sync();							// 这里用2个sync是为了保证让方法走完？ 不然如果是同步可能会阻塞到这里
+            f.channel().closeFuture().sync();							// 没看懂这个closeFuture的sync方法是想要干啥
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
