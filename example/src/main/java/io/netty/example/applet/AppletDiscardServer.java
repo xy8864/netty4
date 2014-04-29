@@ -80,6 +80,12 @@ public class AppletDiscardServer extends JApplet {
         }
     }
 
+    /**
+     * 本例中的DiscardServer收到消息后的事件处理机制。
+     * 
+     * @author Administrator
+     *
+     */
     private static final class DiscardServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
         @Override

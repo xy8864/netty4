@@ -38,11 +38,15 @@ import java.util.NoSuchElementException;
  * interact with each other.
  *
  * <h3>Creation of a pipeline</h3>
+ * 
+ * 每个channel在被创建的时候都会自动创建自己的Pipeline。
  *
  * Each channel has its own pipeline and it is created automatically when a new channel is created.
  *
+ * 一个事件如何在pipeline中流动，请看下边。
  * <h3>How an event flows in a pipeline</h3>
  *
+ * 下图描述了ChannelHandler是如何在ChannelPipeline中处理IO事件的。
  * The following diagram describes how I/O events are processed by {@link ChannelHandler}s in a {@link ChannelPipeline}
  * typically. An I/O event is handled by either a {@link ChannelInboundHandler} or a {@link ChannelOutboundHandler}
  * and be forwarded to its closest handler by calling the event propagation methods defined in
@@ -219,6 +223,16 @@ public interface ChannelPipeline
          extends Iterable<Entry<String, ChannelHandler>> {
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到ChannelPipeline到首位。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} at the first position of this pipeline.
      *
      * @param name     the name of the handler to insert first
@@ -232,6 +246,16 @@ public interface ChannelPipeline
     ChannelPipeline addFirst(String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到ChannelPipeline到首位。参数EventExecutorGroup是用来执行ChannelHandler的。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} at the first position of this pipeline.
      *
      * @param group    the {@link EventExecutorGroup} which will be used to execute the {@link ChannelHandler}
@@ -247,6 +271,16 @@ public interface ChannelPipeline
     ChannelPipeline addFirst(EventExecutorGroup group, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到ChannelPipeline末位。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * </pre>
+     * 
      * Appends a {@link ChannelHandler} at the last position of this pipeline.
      *
      * @param name     the name of the handler to append
@@ -260,6 +294,16 @@ public interface ChannelPipeline
     ChannelPipeline addLast(String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到ChannelPipeline到末位。传入的EventExecutorGroup是用来执行ChannelHandler的线程池组。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * </pre>
+     * 
      * Appends a {@link ChannelHandler} at the last position of this pipeline.
      *
      * @param group    the {@link EventExecutorGroup} which will be used to execute the {@link ChannelHandler}
@@ -275,6 +319,22 @@ public interface ChannelPipeline
     ChannelPipeline addLast(EventExecutorGroup group, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到指定的ChannelHandler之前。
+     * baseName是pipeline中已经存在的ChannelHandler。
+     * name是即将插入的ChannelHandler的名称。
+     * handler是即将插入的ChannelHandler。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * 
+     * c. 如果当前的ChannelHandler不存在名字为baseName的
+     * ChannelHandler的话则抛出NoSuchElementException。
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} before an existing handler of this
      * pipeline.
      *
@@ -292,6 +352,23 @@ public interface ChannelPipeline
     ChannelPipeline addBefore(String baseName, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到指定的ChannelHandler之前。
+     * baseName是pipeline中已经存在的ChannelHandler。
+     * name是即将插入的ChannelHandler的名称。
+     * handler是即将插入的ChannelHandler。
+     * group是执行ChannelHandler的线程池组。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * 
+     * c. 如果当前的ChannelHandler不存在名字为baseName的
+     * ChannelHandler的话则抛出NoSuchElementException。
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} before an existing handler of this
      * pipeline.
      *
@@ -311,6 +388,22 @@ public interface ChannelPipeline
     ChannelPipeline addBefore(EventExecutorGroup group, String baseName, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到指定的ChannelHandler之后。
+     * baseName是pipeline中已经存在的ChannelHandler。
+     * name是即将插入的ChannelHandler的名称。
+     * handler是即将插入的ChannelHandler。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * 
+     * c. 如果当前的ChannelHandler不存在名字为baseName的
+     * ChannelHandler的话则抛出NoSuchElementException。
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} after an existing handler of this
      * pipeline.
      *
@@ -328,6 +421,23 @@ public interface ChannelPipeline
     ChannelPipeline addAfter(String baseName, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一个ChannelHandler放到指定的ChannelHandler之后。
+     * baseName是pipeline中已经存在的ChannelHandler。
+     * name是即将插入的ChannelHandler的名称。
+     * handler是即将插入的ChannelHandler。
+     * group是执行ChannelHandler的线程池组。
+     * 
+     * a. 如果在pipeline中已经有一个同名的ChannelHandler
+     * 将会抛出IllegalArgumentException异常。
+     * 
+     * b. 如果传入的参数name或者handler任意为null则抛出
+     * NPE.
+     * 
+     * c. 如果当前的ChannelHandler不存在名字为baseName的
+     * ChannelHandler的话则抛出NoSuchElementException。
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler} after an existing handler of this
      * pipeline.
      *
@@ -347,6 +457,10 @@ public interface ChannelPipeline
     ChannelPipeline addAfter(EventExecutorGroup group, String baseName, String name, ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将一组ChannelHandler插入到Pipeline的头部。	
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler}s at the first position of this pipeline.
      *
      * @param handlers  the handlers to insert first
@@ -355,6 +469,11 @@ public interface ChannelPipeline
     ChannelPipeline addFirst(ChannelHandler... handlers);
 
     /**
+     * <pre>
+     * 将一组ChannelHandler插入到Pipeline的头部。	
+     * group是执行ChannelHandlers的线程池组。
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler}s at the first position of this pipeline.
      *
      * @param group     the {@link EventExecutorGroup} which will be used to execute the {@link ChannelHandler}s
@@ -365,6 +484,10 @@ public interface ChannelPipeline
     ChannelPipeline addFirst(EventExecutorGroup group, ChannelHandler... handlers);
 
     /**
+     * <pre>
+     * 将一组ChannelHandler插入到Pipeline的末尾。	
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler}s at the last position of this pipeline.
      *
      * @param handlers  the handlers to insert last
@@ -373,6 +496,11 @@ public interface ChannelPipeline
     ChannelPipeline addLast(ChannelHandler... handlers);
 
     /**
+     * <pre>
+     * 将一组ChannelHandler放到Pipeline的末尾。
+     * group是执行handlers的线程池组。	
+     * </pre>
+     * 
      * Inserts a {@link ChannelHandler}s at the last position of this pipeline.
      *
      * @param group     the {@link EventExecutorGroup} which will be used to execute the {@link ChannelHandler}s
@@ -383,6 +511,17 @@ public interface ChannelPipeline
     ChannelPipeline addLast(EventExecutorGroup group, ChannelHandler... handlers);
 
     /**
+     * <pre>
+     * 将指定的ChannelHandler从pipeline中移除。
+     * 
+     * a. 如果pipeline中没当前ChannelHandler的
+     * 话抛出NoSuchElementException。
+     * b. 如果传入的ChannelHandler是null的话抛
+     * 出NPE.
+     * 
+     * TODO: 为什么这里要移除的是对象? 是name应该更好呀。	
+     * </pre>
+     * 
      * Removes the specified {@link ChannelHandler} from this pipeline.
      *
      * @param  handler          the {@link ChannelHandler} to remove
@@ -395,6 +534,15 @@ public interface ChannelPipeline
     ChannelPipeline remove(ChannelHandler handler);
 
     /**
+     * <pre>
+     * 将指定的ChannelHandler从pipeline中移除。
+     * 
+     * a. 如果pipeline中没当前ChannelHandler的
+     * 话抛出NoSuchElementException。
+     * b. 如果传入的ChannelHandler是null的话抛
+     * 出NPE.
+     * </pre>
+     * 
      * Removes the {@link ChannelHandler} with the specified name from this pipeline.
      *
      * @param  name             the name under which the {@link ChannelHandler} was stored.
@@ -409,6 +557,18 @@ public interface ChannelPipeline
     ChannelHandler remove(String name);
 
     /**
+     * <pre>
+     * 将指定类型的ChannelHandler从pipeline中移除。
+     * 
+     * a. 如果pipeline中没当前类型的ChannelHandler的
+     * 话抛出NoSuchElementException。
+     * b. 如果传入的ChannelHandler是null的话抛
+     * 出NPE.
+     * 
+     * TODO: 假设传入的handlerType是ChannelHandler.class
+     * ，那么是否会移除掉所用的handler?
+     * </pre>
+     * 
      * Removes the {@link ChannelHandler} of the specified type from this pipeline.
      *
      * @param <T>           the type of the handler
@@ -424,6 +584,13 @@ public interface ChannelPipeline
     <T extends ChannelHandler> T remove(Class<T> handlerType);
 
     /**
+     * <pre>
+     * 移除pipeline的队首，方法返回的是移除的当前Handler。
+     * 
+     * a. 如果pipeline中已经为空没有ChannelHandler的情况
+     * 下会抛出NoSuchElementException.
+     * </pre>
+     * 
      * Removes the first {@link ChannelHandler} in this pipeline.
      *
      * @return the removed handler
@@ -434,6 +601,13 @@ public interface ChannelPipeline
     ChannelHandler removeFirst();
 
     /**
+     * <pre>
+     * 移除pipeline的队尾，方法返回的是移除的当前Handler。
+     * 
+     * a. 如果pipeline中已经为空没有ChannelHandler的情况
+     * 下会抛出NoSuchElementException.
+     * </pre>
+     * 
      * Removes the last {@link ChannelHandler} in this pipeline.
      *
      * @return the removed handler
@@ -444,6 +618,20 @@ public interface ChannelPipeline
     ChannelHandler removeLast();
 
     /**
+     * <pre>
+     * 替换掉pipeline中指定的ChannelHandler。用新的ChannelHandler去
+     * 代替，并赋予新的名称。
+     * oldHandler是替换前的ChannelHandler。
+     * newName是替换后的当前位置的ChannelHandler的名称。
+     * newHandler是取代oldHandler的ChannelHandler。
+     * 
+     * 返回值是当前Pipeline。
+     * 
+     * a. 如果oldHandler在pipeline中不存在则抛出NoSuchElementException。
+     * b. 如果newName已经存在于pipeline则替换不成功，抛出IllegalArgumentException。
+     * c. 如果三个参数任意一个为空，则抛出NPE。
+     * </pre>
+     * 
      * Replaces the specified {@link ChannelHandler} with a new handler in this pipeline.
      *
      * @param  oldHandler    the {@link ChannelHandler} to be replaced
@@ -464,6 +652,20 @@ public interface ChannelPipeline
     ChannelPipeline replace(ChannelHandler oldHandler, String newName, ChannelHandler newHandler);
 
     /**
+     * <pre>
+     * 替换掉pipeline中指定名称的ChannelHandler。用新的ChannelHandler去
+     * 代替，并赋予新的名称。
+     * oldName是替换前的老名称。
+     * newName是替换后的当前位置的ChannelHandler的名称。
+     * newHandler是取代后的ChannelHandler。
+     * 
+     * 返回的是被移除的handler。
+     * 
+     * a. 如果oldHandler在pipeline中不存在则抛出NoSuchElementException。
+     * b. 如果newName已经存在于pipeline则替换不成功，抛出IllegalArgumentException。
+     * c. 如果三个参数任意一个为空，则抛出NPE。
+     * </pre>
+     * 
      * Replaces the {@link ChannelHandler} of the specified name with a new handler in this pipeline.
      *
      * @param  oldName       the name of the {@link ChannelHandler} to be replaced
@@ -484,6 +686,12 @@ public interface ChannelPipeline
     ChannelHandler replace(String oldName, String newName, ChannelHandler newHandler);
 
     /**
+     * <pre>
+     * 还是之前说的那个问题，是否是把pipeline中所有的oldHandlerType子类型
+     * 都替换为newHandler？
+     * 不过分析下觉得可能不是,因为涉及到重名的问题。TODO
+     * </pre>
+     * 
      * Replaces the {@link ChannelHandler} of the specified type with a new handler in this pipeline.
      *
      * @param  oldHandlerType   the type of the handler to be removed
@@ -506,6 +714,10 @@ public interface ChannelPipeline
                                          ChannelHandler newHandler);
 
     /**
+     * <pre>
+     * 返回pipeline中的第一个元素。如果pipeline为空就返回为空。
+     * </pre>
+     * 
      * Returns the first {@link ChannelHandler} in this pipeline.
      *
      * @return the first handler.  {@code null} if this pipeline is empty.
@@ -513,6 +725,12 @@ public interface ChannelPipeline
     ChannelHandler first();
 
     /**
+     * <pre>
+     * 返回pipeline中第一个元素的上下文对象，如果pipeline为空该方法返回也是空。
+     * 
+     * TODO 没理解这个元素上下文具体代表了什么
+     * </pre>
+     * 
      * Returns the context of the first {@link ChannelHandler} in this pipeline.
      *
      * @return the context of the first handler.  {@code null} if this pipeline is empty.
@@ -520,6 +738,10 @@ public interface ChannelPipeline
     ChannelHandlerContext firstContext();
 
     /**
+     * <pre>
+     * 返回pipeline中的最后一个元素。如果pipeline为空则返回空。
+     * </pre>
+     * 
      * Returns the last {@link ChannelHandler} in this pipeline.
      *
      * @return the last handler.  {@code null} if this pipeline is empty.
@@ -527,6 +749,12 @@ public interface ChannelPipeline
     ChannelHandler last();
 
     /**
+     * <pre>
+     * 返回pipeline中最后一个元素的上下文对象，如果pipeline为空该方法返回也是空。
+     * 
+     * TODO 没理解这个元素上下文具体代表了什么
+     * </pre>
+     * 
      * Returns the context of the last {@link ChannelHandler} in this pipeline.
      *
      * @return the context of the last handler.  {@code null} if this pipeline is empty.
