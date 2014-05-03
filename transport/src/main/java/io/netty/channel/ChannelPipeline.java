@@ -762,6 +762,10 @@ public interface ChannelPipeline
     ChannelHandlerContext lastContext();
 
     /**
+     * <pre>
+     * 返回指定名称对应的ChannelHandler。如果没有对应的ChannelHandler则返回空。
+     * </pre>
+     * 
      * Returns the {@link ChannelHandler} with the specified name in this
      * pipeline.
      *
@@ -771,6 +775,10 @@ public interface ChannelPipeline
     ChannelHandler get(String name);
 
     /**
+     * <pre>
+     * 返回指定类型的ChannelHandler。如果没有对应的handler则返回null。
+     * </pre>
+     * 
      * Returns the {@link ChannelHandler} of the specified type in this
      * pipeline.
      *
@@ -780,6 +788,13 @@ public interface ChannelPipeline
     <T extends ChannelHandler> T get(Class<T> handlerType);
 
     /**
+     * <pre>
+     * 返回指定的ChannelHandler的上下文对象ChannelHandlerContext。
+     * 如果handler返回为null，
+     * 
+     * TODO 尝试理解ChannelHandler的Context到底代表了什么含义
+     * </pre>
+     * 
      * Returns the context object of the specified {@link ChannelHandler} in
      * this pipeline.
      *
@@ -789,6 +804,13 @@ public interface ChannelPipeline
     ChannelHandlerContext context(ChannelHandler handler);
 
     /**
+     * <pre>
+     * 返回指定名称的ChannelHandler的上下文对象ChannelHandlerContext。
+     * 如果handler为null则返回为null，
+     * 
+     * TODO 尝试理解ChannelHandler的Context到底代表了什么含义
+     * </pre>
+     * 
      * Returns the context object of the {@link ChannelHandler} with the
      * specified name in this pipeline.
      *
@@ -798,6 +820,13 @@ public interface ChannelPipeline
     ChannelHandlerContext context(String name);
 
     /**
+     * <pre>
+     * 返回指定的handlerType类型的上下文对象ChannelHandlerContext。
+     * 如果handler返回为null。
+     * 
+     * TODO 尝试理解ChannelHandler的Context到底代表了什么含义
+     * </pre>
+     * 
      * Returns the context object of the {@link ChannelHandler} of the
      * specified type in this pipeline.
      *
@@ -807,6 +836,10 @@ public interface ChannelPipeline
     ChannelHandlerContext context(Class<? extends ChannelHandler> handlerType);
 
     /**
+     * <pre>
+     * 返回当前Pipeline关联的Channel。如果当前pipeline还没关联到任何一个channel返回为null。
+     * </pre>
+     * 
      * Returns the {@link Channel} that this pipeline is attached to.
      *
      * @return the channel. {@code null} if this pipeline is not attached yet.
@@ -814,17 +847,31 @@ public interface ChannelPipeline
     Channel channel();
 
     /**
+     * <pre>
+     * 返回pipeline中ChannelHandler的名字字符列表。
+     * </pre>
+     * 
      * Returns the {@link List} of the handler names.
      */
     List<String> names();
 
     /**
+     * <pre>
+     * 将当前的pipeline中的内容转换为一个map。名字为key，value为ChannelHandler。
+     * 
+     * TODO: 原始注释说这个Map需要排序。按照key排序?
+     * </pre>
+     * 
      * Converts this pipeline into an ordered {@link Map} whose keys are
      * handler names and whose values are handlers.
      */
     Map<String, ChannelHandler> toMap();
 
     /**
+     * <pre>
+     * 手工触发Channel的register事件
+     * </pre>
+     * 
      * A {@link Channel} was registered to its {@link EventLoop}.
      *
      * This will result in having the  {@link ChannelInboundHandler#channelRegistered(ChannelHandlerContext)} method
@@ -834,6 +881,10 @@ public interface ChannelPipeline
     ChannelPipeline fireChannelRegistered();
 
     /**
+     * <pre>
+     * 手工触发Channel的unregister事件.已经过期，我管坯里。
+     * </pre>
+     * 
      * A {@link Channel} was unregistered from its {@link EventLoop}.
      *
      * This will result in having the  {@link ChannelInboundHandler#channelUnregistered(ChannelHandlerContext)} method
@@ -844,6 +895,10 @@ public interface ChannelPipeline
     ChannelPipeline fireChannelUnregistered();
 
     /**
+     * <pre>
+     * 手工触发Channel的active事件
+     * </pre>
+     * 
      * A {@link Channel} is active now, which means it is connected.
      *
      * This will result in having the  {@link ChannelInboundHandler#channelActive(ChannelHandlerContext)} method
@@ -853,6 +908,10 @@ public interface ChannelPipeline
     ChannelPipeline fireChannelActive();
 
     /**
+     * <pre>
+     * 手工触发Channel的inactive事件
+     * </pre>
+     * 
      * A {@link Channel} is inactive now, which means it is closed.
      *
      * This will result in having the  {@link ChannelInboundHandler#channelInactive(ChannelHandlerContext)} method
@@ -862,6 +921,10 @@ public interface ChannelPipeline
     ChannelPipeline fireChannelInactive();
 
     /**
+     * <pre>
+     * 手工触发异常捕捉事件	TODO
+     * </pre>
+     * 
      * A {@link Channel} received an {@link Throwable} in one of its inbound operations.
      *
      * This will result in having the  {@link ChannelInboundHandler#exceptionCaught(ChannelHandlerContext, Throwable)}
@@ -871,6 +934,10 @@ public interface ChannelPipeline
     ChannelPipeline fireExceptionCaught(Throwable cause);
 
     /**
+     * <pre>
+     * 手工触发用户自定义事件
+     * </pre>
+     * 
      * A {@link Channel} received an user defined event.
      *
      * This will result in having the  {@link ChannelInboundHandler#userEventTriggered(ChannelHandlerContext, Object)}
@@ -880,6 +947,10 @@ public interface ChannelPipeline
     ChannelPipeline fireUserEventTriggered(Object event);
 
     /**
+     * <pre>
+     * 手工触发Channel的read事件
+     * </pre>
+     * 
      * A {@link Channel} received a message.
      *
      * This will result in having the {@link ChannelInboundHandler#channelRead(ChannelHandlerContext, Object)}
@@ -889,18 +960,30 @@ public interface ChannelPipeline
     ChannelPipeline fireChannelRead(Object msg);
 
     /**
+     * <pre>
+     * 手工触发Channel的readComplete事件
+     * </pre>
+     * 
      * Triggers an {@link ChannelInboundHandler#channelWritabilityChanged(ChannelHandlerContext)}
      * event to the next {@link ChannelInboundHandler} in the {@link ChannelPipeline}.
      */
     ChannelPipeline fireChannelReadComplete();
 
     /**
+     * <pre>
+     * 手工触发Channel的writabilityChanged事件 TODO
+     * </pre>
+     * 
      * Triggers an {@link ChannelInboundHandler#channelWritabilityChanged(ChannelHandlerContext)}
      * event to the next {@link ChannelInboundHandler} in the {@link ChannelPipeline}.
      */
     ChannelPipeline fireChannelWritabilityChanged();
 
     /**
+     * <pre>
+     * socketAddress地址绑定。
+     * </pre>
+     * 
      * Request to bind to the given {@link SocketAddress} and notify the {@link ChannelFuture} once the operation
      * completes, either because the operation was successful or because of an error.
      * <p>
@@ -912,6 +995,10 @@ public interface ChannelPipeline
     ChannelFuture bind(SocketAddress localAddress);
 
     /**
+     * <pre>
+     * socketAddress地址连接。这个和connect方法到底有什么更详细的区别?
+     * </pre>
+     * 
      * Request to connect to the given {@link SocketAddress} and notify the {@link ChannelFuture} once the operation
      * completes, either because the operation was successful or because of an error.
      * <p>
@@ -927,6 +1014,10 @@ public interface ChannelPipeline
     ChannelFuture connect(SocketAddress remoteAddress);
 
     /**
+     * <pre>
+     * socketAddress地址连接。这个和connect方法到底有什么更详细的区别? TODO
+     * </pre>
+     * 
      * Request to connect to the given {@link SocketAddress} while bind to the localAddress and notify the
      * {@link ChannelFuture} once the operation completes, either because the operation was successful or because of
      * an error.
@@ -939,6 +1030,10 @@ public interface ChannelPipeline
     ChannelFuture connect(SocketAddress remoteAddress, SocketAddress localAddress);
 
     /**
+     * <pre>
+     * 失去连接。
+     * </pre>
+     * 
      * Request to disconnect from the remote peer and notify the {@link ChannelFuture} once the operation completes,
      * either because the operation was successful or because of an error.
      * <p>
@@ -950,6 +1045,10 @@ public interface ChannelPipeline
     ChannelFuture disconnect();
 
     /**
+     * <pre>
+     * channel关闭
+     * </pre>
+     * 
      * Request to close the {@link Channel} and notify the {@link ChannelFuture} once the operation completes,
      * either because the operation was successful or because of
      * an error.
@@ -964,6 +1063,10 @@ public interface ChannelPipeline
     ChannelFuture close();
 
     /**
+     * <pre>
+     * 注销，已经过期。
+     * </pre>
+     * 
      * Request to deregister the {@link Channel} from the previous assigned {@link EventExecutor} and notify the
      * {@link ChannelFuture} once the operation completes, either because the operation was successful or because of
      * an error.
@@ -978,6 +1081,10 @@ public interface ChannelPipeline
     ChannelFuture deregister();
 
     /**
+     * <pre>
+     * 地址绑定。同时唤醒promise。TODO
+     * </pre>
+     * 
      * Request to bind to the given {@link SocketAddress} and notify the {@link ChannelFuture} once the operation
      * completes, either because the operation was successful or because of an error.
      *
@@ -991,6 +1098,10 @@ public interface ChannelPipeline
     ChannelFuture bind(SocketAddress localAddress, ChannelPromise promise);
 
     /**
+     * <pre>
+     * 地址连接。同时唤醒promise。TODO
+     * </pre>
+     * 
      * Request to connect to the given {@link SocketAddress} and notify the {@link ChannelFuture} once the operation
      * completes, either because the operation was successful or because of an error.
      *
@@ -1009,6 +1120,10 @@ public interface ChannelPipeline
     ChannelFuture connect(SocketAddress remoteAddress, ChannelPromise promise);
 
     /**
+     * <pre>
+     * connect方法的又一个变种，不太懂 TODO
+     * </pre>
+     * 
      * Request to connect to the given {@link SocketAddress} while bind to the localAddress and notify the
      * {@link ChannelFuture} once the operation completes, either because the operation was successful or because of
      * an error.
@@ -1023,6 +1138,10 @@ public interface ChannelPipeline
     ChannelFuture connect(SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise);
 
     /**
+     * <pre>
+     * channel断开连接。同时唤醒promise。 TODO
+     * </pre>
+     * 
      * Request to disconnect from the remote peer and notify the {@link ChannelFuture} once the operation completes,
      * either because the operation was successful or because of an error.
      *
@@ -1030,12 +1149,16 @@ public interface ChannelPipeline
      * <p>
      * This will result in having the
      * {@link ChannelOutboundHandler#disconnect(ChannelHandlerContext, ChannelPromise)}
-     * method called of the next {@link ChannelOutboundHandler} contained in the  {@link ChannelPipeline} of the
+     * method called of the next {@link ChaWnnelOutboundHandler} contained in the  {@link ChannelPipeline} of the
      * {@link Channel}.
      */
     ChannelFuture disconnect(ChannelPromise promise);
 
     /**
+     * <pre>
+     *  TODO
+     * </pre>
+     * 
      * Request to close the {@link Channel} bound to this {@link ChannelPipeline} and notify the {@link ChannelFuture}
      * once the operation completes, either because the operation was successful or because of
      * an error.
@@ -1066,6 +1189,10 @@ public interface ChannelPipeline
     ChannelFuture deregister(ChannelPromise promise);
 
     /**
+     * <PRE>
+     * TODO
+     * </PRE>
+     * 
      * Request to Read data from the {@link Channel} into the first inbound buffer, triggers an
      * {@link ChannelInboundHandler#channelRead(ChannelHandlerContext, Object)} event if data was
      * read, and triggers a
@@ -1080,13 +1207,19 @@ public interface ChannelPipeline
     ChannelPipeline read();
 
     /**
+     * <PRE>
+     * TODO
+     * </PRE>
+     * 
      * Request to write a message via this {@link ChannelPipeline}.
      * This method will not request to actual flush, so be sure to call {@link #flush()}
      * once you want to request to flush all pending data to the actual transport.
      */
     ChannelFuture write(Object msg);
 
-    /**
+    /**<PRE>
+     * TODO
+     * </PRE>
      * Request to write a message via this {@link ChannelPipeline}.
      * This method will not request to actual flush, so be sure to call {@link #flush()}
      * once you want to request to flush all pending data to the actual transport.
@@ -1094,16 +1227,28 @@ public interface ChannelPipeline
     ChannelFuture write(Object msg, ChannelPromise promise);
 
     /**
+     * <PRE>
+     * TODO
+     * </PRE>
+     * 
      * Request to flush all pending messages.
      */
     ChannelPipeline flush();
 
     /**
+     * <PRE>
+     * TODO
+     * </PRE>
+     * 
      * Shortcut for call {@link #write(Object, ChannelPromise)} and {@link #flush()}.
      */
     ChannelFuture writeAndFlush(Object msg, ChannelPromise promise);
 
     /**
+     * <PRE>
+     * TODO
+     * </PRE>
+     * 
      * Shortcut for call {@link #write(Object)} and {@link #flush()}.
      */
     ChannelFuture writeAndFlush(Object msg);
