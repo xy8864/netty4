@@ -19,6 +19,13 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * <pre>
+ * 在类加载时有已知的问题。所以当前类被标注过期。 TODO：最后能查到bug信息
+ * 
+ * 本类的作用是: 在构造初始化阶段提供一个在map中唯一的名字。
+ * 如果名字重复，则会抛出异常
+ * </pre>
+ * 
  * @deprecated Known to have problems with class loaders.
  *
  * Defines a name that must be unique in the map that is provided during construction.
@@ -32,6 +39,10 @@ public class UniqueName implements Comparable<UniqueName> {
     private final String name;
 
     /**
+     * <PRE>
+     * 构建一个UniqueName对象。
+     * </PRE>
+     * 
      * Constructs a new {@link UniqueName}
      *
      * @param map the map of names to compare with
@@ -49,6 +60,7 @@ public class UniqueName implements Comparable<UniqueName> {
             validateArgs(args);
         }
 
+        // 为什么这里是 !=null 来判断呢? 难道不应该是 ==false? TODO
         if (map.putIfAbsent(name, Boolean.TRUE) != null) {
             throw new IllegalArgumentException(String.format("'%s' is already in use", name));
         }
@@ -58,6 +70,10 @@ public class UniqueName implements Comparable<UniqueName> {
     }
 
     /**
+     * <PRE>
+     * 交给子类去实现的args参数校验方法。这里什么都没做。
+     * </PRE>
+     * 
      * Validates the given arguments.  This method does not do anything on its own, but must be
      * overridden by its subclasses.
      *

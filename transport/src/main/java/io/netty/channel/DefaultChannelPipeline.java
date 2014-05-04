@@ -38,6 +38,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
+ * ChannelPipeline的默认实现类。当Channel被创建的时候ChannelPipeline同时也会创建好。
+ * 
  * The default {@link ChannelPipeline} implementation.  It is usually created
  * by a {@link Channel} implementation when the {@link Channel} is created.
  */
@@ -46,6 +48,8 @@ final class DefaultChannelPipeline implements ChannelPipeline {
     static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultChannelPipeline.class);
 
     @SuppressWarnings("unchecked")
+    // 这里的WeakHashMap是为了方便GC? TODO
+    // WeakHashMap的大小是当前可用的处理器数目
     private static final WeakHashMap<Class<?>, String>[] nameCaches =
             new WeakHashMap[Runtime.getRuntime().availableProcessors()];
 
@@ -63,6 +67,7 @@ final class DefaultChannelPipeline implements ChannelPipeline {
     private final Map<String, DefaultChannelHandlerContext> name2ctx =
         new HashMap<String, DefaultChannelHandlerContext>(4);
 
+    // TODO 为什么在这里用IdentityHashMap， 这玩意儿做啥的
     final Map<EventExecutorGroup, EventExecutor> childExecutors =
             new IdentityHashMap<EventExecutorGroup, EventExecutor>();
 

@@ -20,15 +20,22 @@ import io.netty.util.internal.PlatformDependent;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * <pre>
+ * 属性的Key。
+ * </pre>
+ * 
  * Key which can be used to access {@link Attribute} out of the {@link AttributeMap}. Be aware that it is not be
  * possible to have multiple keys with the same name.
  *
  *
  * @param <T>   the type of the {@link Attribute} which can be accessed via this {@link AttributeKey}.
+ * 
+ * TODO:这里官方有注释注明这个泛型的T是仅仅被用在编译时期， 怎么理解?
  */
 @SuppressWarnings({ "UnusedDeclaration", "deprecation" }) // 'T' is used only at compile time
 public final class AttributeKey<T> extends UniqueName {
 
+	// 使用了一个变量CAN_USE_CHM_V8来判断到底是哪种并发Map。提升性能的一个举措。 TODO
     private static final ConcurrentMap<String, Boolean> names = PlatformDependent.newConcurrentHashMap();
 
     /**
