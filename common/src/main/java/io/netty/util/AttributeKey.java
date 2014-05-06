@@ -39,6 +39,11 @@ public final class AttributeKey<T> extends UniqueName {
     private static final ConcurrentMap<String, Boolean> names = PlatformDependent.newConcurrentHashMap();
 
     /**
+     * <pre>
+     * 根据指定的名称创建一个新的AttribueKey对象。
+     * 新的valueOf方法替代了以前的公开的构造器。
+     * </pre>
+     * 
      * Creates a new {@link AttributeKey} with the specified {@code name}.
      */
     @SuppressWarnings("deprecation")
@@ -47,10 +52,15 @@ public final class AttributeKey<T> extends UniqueName {
     }
 
     /**
+     * <PRE>
+     * 该方法已经废弃。
+     * </PRE>
+     * 
      * @deprecated Use {@link #valueOf(String)} instead.
      */
     @Deprecated
     public AttributeKey(String name) {
+    	// go： UniqueName构造器
         super(names, name);
     }
 }

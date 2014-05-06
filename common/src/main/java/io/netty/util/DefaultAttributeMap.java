@@ -23,16 +23,22 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 /**
+ * <PRE>
+ * AttributeMap的默认实现。使用了简单的同步来保持尽可能低的内存开销(TODO)。
+ * </PRE>
+ * 
  * Default {@link AttributeMap} implementation which use simple synchronization to keep the memory overhead
  * as low as possible.
  */
 public class DefaultAttributeMap implements AttributeMap {
 
+	// 看了一些注释，感觉AtomicReferenceFieldUpdater是用来在2个对象之间交互数据并且是原子操作的辅助类 TODO
     @SuppressWarnings("rawtypes")
     private static final AtomicReferenceFieldUpdater<DefaultAttributeMap, Map> updater;
 
     static {
-        @SuppressWarnings("rawtypes")
+    	// 又是一个从PlateformDependent依赖获取的例子 不知道这里提升了什么性能 TODO
+    	@SuppressWarnings("rawtypes")
         AtomicReferenceFieldUpdater<DefaultAttributeMap, Map> referenceFieldUpdater =
                 PlatformDependent.newAtomicReferenceFieldUpdater(DefaultAttributeMap.class, "map");
         if (referenceFieldUpdater == null) {
@@ -49,6 +55,8 @@ public class DefaultAttributeMap implements AttributeMap {
     public <T> Attribute<T> attr(AttributeKey<T> key) {
         Map<AttributeKey<?>, Attribute<?>> map = this.map;
         if (map == null) {
+        	// 没有使用ConcurrentHashMap是因为其消耗内存较高 TODO
+        	// 这里用IdentifyHashMap的想法是什么？TODO  IdentifyHashMap是根据地址来作为key的
             // Not using ConcurrentHashMap due to high memory consumption.
             map = new IdentityHashMap<AttributeKey<?>, Attribute<?>>(2);
             if (!updater.compareAndSet(this, null, map)) {

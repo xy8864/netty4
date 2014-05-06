@@ -16,12 +16,23 @@
 package io.netty.util;
 
 /**
+ * <PRE>
+ * 管理Attribute相关的Map。
+ * 
+ * 他的实现类必须要线程安全!!!!!!!!!!	
+ * </PRE>
+ * 
  * Holds {@link Attribute}s which can be accessed via {@link AttributeKey}.
  *
  * Implementations must be Thread-safe.
  */
 public interface AttributeMap {
     /**
+     * <pre>
+     * 获取AttributeKey对应的Attribute。这个方法永远不会返回null。当应该返回null
+     * 的时候实际上是返回了一个没有设置值的Attribute。
+     * </pre>
+     * 
      * Get the {@link Attribute} for the given {@link AttributeKey}. This method will never return null, but may return
      * an {@link Attribute} which does not have a value set yet.
      */

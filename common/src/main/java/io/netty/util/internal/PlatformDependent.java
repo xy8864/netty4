@@ -369,6 +369,12 @@ public final class PlatformDependent {
         return null;
     }
 
+    /**
+     * 判断是否是android系统的依据是能加载到 android.app.Application这个类。
+     * 看来这个类是Android的最基本的类。就好比jdk的Object.class。
+     * 
+     * @return
+     */
     private static boolean isAndroid0() {
         boolean android;
         try {
