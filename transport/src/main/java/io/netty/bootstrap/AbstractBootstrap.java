@@ -279,7 +279,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
 
     /**
      * <pre>
-     * server和client的公共绑定方法。
+     * server和client的端口公共绑定方法。
      * </pre>
      * 
      * Create a new {@link Channel} and bind it.
@@ -337,7 +337,9 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
         }
 
         final ChannelPromise promise;
+        // 注册的reg如果处理完毕， 一般来说都会走到这个if(true)的分支
         if (regFuture.isDone()) {
+        	// 创建一个DefaultChannelPromise。
             promise = channel.newPromise();
             doBind0(regFuture, channel, localAddress, promise);
         } else {
@@ -397,6 +399,8 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
             final ChannelFuture regFuture, final Channel channel,
             final SocketAddress localAddress, final ChannelPromise promise) {
 
+    	// 交给线程去绑定
+    	
         // This method is invoked before channelRegistered() is triggered.  Give user handlers a chance to set up
         // the pipeline in its channelRegistered() implementation.
         channel.eventLoop().execute(new Runnable() {

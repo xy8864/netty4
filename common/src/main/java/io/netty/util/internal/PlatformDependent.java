@@ -390,7 +390,12 @@ public final class PlatformDependent {
         }
         return android;
     }
-
+    
+    /**
+     * 判断系统是否是windows环境，就看他的os.name属性中是否包含有win这串字符。
+     * 
+     * @return
+     */
     private static boolean isWindows0() {
         boolean windows = SystemPropertyUtil.get("os.name", "").toLowerCase(Locale.US).contains("win");
         if (windows) {

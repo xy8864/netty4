@@ -431,6 +431,9 @@ final class DefaultChannelHandlerContext extends DefaultAttributeMap implements 
         return deregister(newPromise());
     }
 
+    /**
+     * µÿ÷∑∞Û∂®
+     */
     @Override
     public ChannelFuture bind(final SocketAddress localAddress, final ChannelPromise promise) {
         if (localAddress == null) {

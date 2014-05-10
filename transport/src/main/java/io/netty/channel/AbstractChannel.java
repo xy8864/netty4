@@ -468,6 +468,9 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
             }
         }
 
+        /**
+         *  核心的地址绑定地方
+         */
         @Override
         public final void bind(final SocketAddress localAddress, final ChannelPromise promise) {
             if (!promise.setUncancellable() || !ensureOpen(promise)) {
@@ -487,8 +490,10 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                         "address (" + localAddress + ") anyway as requested.");
             }
 
+            // 判断当前的服务器端是否绑定，当然 正常情况下这里肯定是返回false。
             boolean wasActive = isActive();
             try {
+            	// 开始绑定。
                 doBind(localAddress);
             } catch (Throwable t) {
                 safeSetFailure(promise, t);
@@ -496,7 +501,10 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 return;
             }
 
+            // 走到这个if里边表示之前的doBind已经绑定成功，因为isActive已经生效了。
             if (!wasActive && isActive()) {
+            	
+            	// 启动线程去跑channelActive事件 TODO
                 invokeLater(new Runnable() {
                     @Override
                     public void run() {
@@ -505,6 +513,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 });
             }
 
+            // promise状态设置为true。
             safeSetSuccess(promise);
         }
 

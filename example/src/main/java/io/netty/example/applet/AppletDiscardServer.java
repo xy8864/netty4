@@ -51,7 +51,7 @@ public class AppletDiscardServer extends JApplet {
         	// ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerChannel>
             ServerBootstrap bootstrap = new ServerBootstrap();
             
-            // group方法其实就是设置了引导类中的boss线程组对象和worker线程组对象。
+            // group方法其实就是设置了引导类中的boss线程组对象(group)和worker线程组对象(childGroup)。
             // channel方法主要来负责设置当前对象的channel工厂
             bootstrap.group(bossGroup, workerGroup)
                      .channel(NioServerSocketChannel.class)								// why need a class ?

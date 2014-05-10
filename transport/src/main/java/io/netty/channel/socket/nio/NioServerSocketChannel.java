@@ -99,7 +99,7 @@ public class NioServerSocketChannel extends AbstractNioMessageChannel
 
     @Override
     protected void doBind(SocketAddress localAddress) throws Exception {
-        javaChannel().socket().bind(localAddress, config.getBacklog());
+        javaChannel().socket().bind(localAddress, config.getBacklog());	// TODO 这里的backlog的含义到底是什么
     }
 
     @Override

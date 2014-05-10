@@ -57,6 +57,7 @@ public class DefaultAttributeMap implements AttributeMap {
         if (map == null) {
         	// 没有使用ConcurrentHashMap是因为其消耗内存较高 TODO
         	// 这里用IdentifyHashMap的想法是什么？TODO  IdentifyHashMap是根据地址来作为key的
+        	// 所以IdentifyHashMap的key可以是equals的(但是address不一致)
             // Not using ConcurrentHashMap due to high memory consumption.
             map = new IdentityHashMap<AttributeKey<?>, Attribute<?>>(2);
             if (!updater.compareAndSet(this, null, map)) {
@@ -67,6 +68,7 @@ public class DefaultAttributeMap implements AttributeMap {
         synchronized (map) {
             @SuppressWarnings("unchecked")
             Attribute<T> attr = (Attribute<T>) map.get(key);
+            // 拿不到Attribute的默认初始化
             if (attr == null) {
                 attr = new DefaultAttribute<T>(map, key);
                 map.put(key, attr);

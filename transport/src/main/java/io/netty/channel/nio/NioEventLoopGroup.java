@@ -52,7 +52,7 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
      * 
      * SelectorProvider.provider()是根据系统属性来获取的。
      * 如果java.nio.channels.spi.SelectorProvider有对应的值，获取值对应的类的实例。
-     * 否则ServiceLoader。 这块还得看看，JDK的东西.
+     * 否则ServiceLoader。 这块还得看看，JDK的东西. TODO
      */
     public NioEventLoopGroup(int nThreads, ThreadFactory threadFactory) {
         this(nThreads, threadFactory, SelectorProvider.provider());

@@ -139,9 +139,15 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         try {
             SelectedSelectionKeySet selectedKeySet = new SelectedSelectionKeySet();
 
+            // 用当前的系统类加载器去加载sun的核心类
+            // sun.nio.ch.SelectorImpl 不用立刻初始化(比如static块，实例不会初始化)。
+            // 可见我的Loader1.java。
             Class<?> selectorImplClass =
                     Class.forName("sun.nio.ch.SelectorImpl", false, ClassLoader.getSystemClassLoader());
 
+            // 这里有点疑问。sun.nio.ch.SelectorImpl本来就是jdk的Selector的子类。
+            // 难道这里要考虑多个类加载器之间隔离的问题? TODO
+            //
             // Ensure the current selector implementation is what we can instrument.
             if (!selectorImplClass.isAssignableFrom(selector.getClass())) {
                 return selector;

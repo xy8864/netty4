@@ -106,11 +106,20 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         return result == null;
     }
 
+    /**
+     * 判断Promise是否已经执行完。
+     */
     @Override
     public boolean isDone() {
         return isDone0(result);
     }
 
+    /**
+     * TODO 不明白为什么判断的逻辑是这样，为什么根据result的情况就可以知道
+     * 
+     * @param result
+     * @return
+     */
     private static boolean isDone0(Object result) {
         return result != null && result != UNCANCELLABLE;
     }
@@ -236,12 +245,16 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
         return this;
     }
 
+    /**
+     * 如果前边的事情有异常，抛出
+     */
     private void rethrowIfFailed() {
         Throwable cause = cause();
         if (cause == null) {
             return;
         }
 
+        // 好像又是一个性能处理的地方 不懂 TODO
         PlatformDependent.throwException(cause);
     }
 
@@ -250,15 +263,17 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
      */
     @Override
     public Promise<V> await() throws InterruptedException {
-        // 如果已经执行完就返回自身
+        // 如果Promise已经执行完就返回自身
     	if (isDone()) {
             return this;
         }
 
+    	// 线程中断，抛出异常
         if (Thread.interrupted()) {
             throw new InterruptedException(toString());
         }
 
+        // 以当前DefaultPromise作为需要同步的对象 TODO?
         synchronized (this) {
         	// 如果线程没有执行完走下边的流程
             while (!isDone()) {
@@ -804,7 +819,10 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
             }
         }
     }
-
+    
+    /**
+     * 一个私有的异常Throwable处理包装类CauseHandler。
+     */
     private static final class CauseHolder {
         final Throwable cause;
         private CauseHolder(Throwable cause) {
