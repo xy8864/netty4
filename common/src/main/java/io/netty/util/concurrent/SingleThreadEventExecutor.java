@@ -94,6 +94,7 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
         this.parent = parent;
         this.addTaskWakesUp = addTaskWakesUp;
 
+        // 构造器的这个时候 thread还没有启动
         thread = threadFactory.newThread(new Runnable() {
             @Override
             public void run() {
@@ -154,6 +155,8 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
     }
 
     /**
+     * 返回一个全新的任务队列
+     * 
      * Create a new {@link Queue} which will holds the tasks to execute. This default implementation will return a
      * {@link LinkedBlockingQueue} but if your sub-class of {@link SingleThreadEventExecutor} will not do any blocking
      * calls on the this {@link Queue} it may make sense to {@code @Override} this and return some more performant
@@ -814,18 +817,31 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
         return task;
     }
 
+    /**
+     * 全局变量thread线程对象启动
+     */
     private void startThread() {
         synchronized (stateLock) {
             if (state == ST_NOT_STARTED) {
                 state = ST_STARTED;
                 delayedTaskQueue.add(new ScheduledFutureTask<Void>(
-                        this, delayedTaskQueue, Executors.<Void>callable(new PurgeTask(), null),
-                        ScheduledFutureTask.deadlineNanos(SCHEDULE_PURGE_INTERVAL), -SCHEDULE_PURGE_INTERVAL));
+					                        this, 
+					                        delayedTaskQueue, 
+					                        Executors.<Void>callable(new PurgeTask(), null),
+					                        ScheduledFutureTask.deadlineNanos(SCHEDULE_PURGE_INTERVAL), 
+					                        -SCHEDULE_PURGE_INTERVAL
+					                     ));
                 thread.start();
             }
         }
     }
 
+    /**
+     * PurgeTask. 特定场景下的任务对象。
+     * 
+     * 看起来是任务清除的task。将delayedTaskQueu中所有终止
+     * 状态的任务全部删除掉。
+     */
     private final class PurgeTask implements Runnable {
         @Override
         public void run() {

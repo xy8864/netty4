@@ -338,7 +338,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
         // 无限循环的意思是啥。 TODO
         for (;;) {
             try {
-            	// 在JDK的channel上注册事件 这块没有理解清楚 TODO
+            	// 在JDK的channel上注册事件 这块没有理解清楚 TODO 注册的数字值是0 是什么意思？岂不是没有事件接受
                 selectionKey = javaChannel().register(eventLoop().selector, 0, this);
                 return;
             } catch (CancelledKeyException e) {

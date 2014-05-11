@@ -65,6 +65,12 @@ public class DefaultThreadFactory implements ThreadFactory {
         this(toPoolName(poolType), daemon, priority);
     }
 
+    /**
+     * 将class对象转换为易读的字符串。
+     * 
+     * @param poolType
+     * @return
+     */
     private static String toPoolName(Class<?> poolType) {
         if (poolType == null) {
             throw new NullPointerException("poolType");
@@ -85,6 +91,13 @@ public class DefaultThreadFactory implements ThreadFactory {
         }
     }
 
+    /**
+     * 真正的构造器。
+     * 
+     * @param poolName
+     * @param daemon
+     * @param priority
+     */
     public DefaultThreadFactory(String poolName, boolean daemon, int priority) {
         // 线程工厂的名称不能为空
     	if (poolName == null) {
@@ -102,6 +115,9 @@ public class DefaultThreadFactory implements ThreadFactory {
         this.priority = priority;
     }
 
+    /**
+     * 线程工厂的核心方法: 根据一个任务返回一个对象的线程对象
+     */
     @Override
     public Thread newThread(Runnable r) {
         Thread t = new Thread(r, prefix + nextId.incrementAndGet());

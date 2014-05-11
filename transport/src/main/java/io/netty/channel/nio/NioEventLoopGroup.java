@@ -39,6 +39,8 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
     /**
      * 创建指定数量的线程，包装成NioEventLoopGroup实例。
      * 
+     * PS: 第二个参数是线程工厂。当前默认传入null。
+     * 
      * Create a new instance using the specified number of threads, {@link ThreadFactory} and the
      * {@link SelectorProvider} which is returned by {@link SelectorProvider#provider()}.
      */
@@ -59,6 +61,8 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
     }
 
     /**
+     * 创建NioEventLoopGroup实例(线程个数，线程工厂，provider).
+     * 
      * Create a new instance using the specified number of threads, the given {@link ThreadFactory} and the given
      * {@link SelectorProvider}.
      */
@@ -79,7 +83,7 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
 
     /**
      * Replaces the current {@link Selector}s of the child event loops with newly created {@link Selector}s to work
-     * around the  infamous epoll 100% CPU bug.
+     * around the infamous epoll 100% CPU bug.
      */
     public void rebuildSelectors() {
         for (EventExecutor e: children()) {
@@ -87,7 +91,7 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
         }
     }
 
-    /**
+    /** 
      * <pre>
      * 		创建一个EventExecutor。
      * </pre>

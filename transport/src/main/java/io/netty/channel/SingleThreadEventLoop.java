@@ -43,11 +43,17 @@ public abstract class SingleThreadEventLoop extends SingleThreadEventExecutor im
         return (EventLoop) super.next();
     }
 
+    /**
+     * ×¢²á¡£
+     */
     @Override
     public ChannelFuture register(Channel channel) {
         return register(channel, new DefaultChannelPromise(channel, this));
     }
 
+    /**
+     * ×¢²á
+     */
     @Override
     public ChannelFuture register(final Channel channel, final ChannelPromise promise) {
         if (channel == null) {

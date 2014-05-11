@@ -119,19 +119,33 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         if (selectorProvider == null) {
             throw new NullPointerException("selectorProvider");
         }
+        
+        // selectorProvider是系统SelectProvider.provider()自动分配过来的
         provider = selectorProvider;
+        
+        // selector是默认传来的sun.nio.ch.WindowsSelectorImpl
         selector = openSelector();
     }
 
+    /**
+     * 这个方法其实还是没有完全搞懂。感觉上还是分为以下情况:
+     * 
+     * 1. 拿到JDK包装返回的Selector。
+     * 2. 利用反射修饰Selector(动了2个参数)。
+     * 3. 返回selector。
+     * 
+     * PS： windows下默认的Selector是sun.nio.ch.WindowsSelectorImpl。
+     */
     private Selector openSelector() {
         final Selector selector;
         try {
-        	// 没懂这里 TODO
+        	// 没懂这里，感觉像是JDK对selector的实现根据不同的操作系统进行了封装 TODO
             selector = provider.openSelector();
         } catch (IOException e) {
             throw new ChannelException("failed to open a new selector", e);
         }
 
+        // 没懂这个场景 TODO
         if (DISABLE_KEYSET_OPTIMIZATION) {
             return selector;
         }
@@ -153,15 +167,19 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 return selector;
             }
 
+            // 反射获取sun.nio.ch.SelectorImpl中的selectedKeys&publicSelectedKeys。
             Field selectedKeysField = selectorImplClass.getDeclaredField("selectedKeys");
             Field publicSelectedKeysField = selectorImplClass.getDeclaredField("publicSelectedKeys");
 
+            // selectedKeys&publicSelectedKeys是私有的。加强发射访问权限。
             selectedKeysField.setAccessible(true);
             publicSelectedKeysField.setAccessible(true);
 
+            // 如果是第一次来这里， selectedKeySet其实里边的A,B是空的。确认只是初始化一下? TODO
             selectedKeysField.set(selector, selectedKeySet);
             publicSelectedKeysField.set(selector, selectedKeySet);
 
+            // 如果上边是初始化，那么这里也是初始化, 初始化selectedKeys这个参数。 TODO
             selectedKeys = selectedKeySet;
             logger.trace("Instrumented an optimized java.util.Set into: {}", selector);
         } catch (Throwable t) {
@@ -307,9 +325,11 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     @Override
     protected void run() {
+    	// 这里是个无线循环在侦测有没有任务
         for (;;) {
             oldWakenUp = wakenUp.getAndSet(false);
             try {
+            	// 如果有任务立刻选中，如果暂时没有任务，阻塞方法select()
                 if (hasTasks()) {
                     selectNow();
                 } else {

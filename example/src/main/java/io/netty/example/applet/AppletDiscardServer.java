@@ -20,7 +20,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup; 
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -44,8 +44,13 @@ public class AppletDiscardServer extends JApplet {
      */
     @Override
     public void init() {
+    	// 这里其实只是关于线程池的准备东西，具体的线程启动不在这部分, 如下
+    	// 1. 线程工厂ThreadFactory创建
+    	// 2. 具体的thread生成在SingleThreadEventExecutor的构造器中。
+    	// 3. 创建SingleThreadEventExecutor数组。
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
+        
         try {
         	// ServerBootstrap的默认构造器什么也没做。
         	// ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerChannel>
@@ -55,7 +60,9 @@ public class AppletDiscardServer extends JApplet {
             // channel方法主要来负责设置当前对象的channel工厂
             bootstrap.group(bossGroup, workerGroup)
                      .channel(NioServerSocketChannel.class)								// why need a class ?
-                     .childHandler(new ChannelInitializer<SocketChannel>() {			// 暂时可以理解为给当前的channel简单的初始化
+                     // 其实ChannelInitializer本身就是一个ChannelHandler。用在这里
+                     // 为了简单的初始化
+                     .childHandler(new ChannelInitializer<SocketChannel>() {			
                          @Override
                          public void initChannel(SocketChannel ch) throws Exception {
                              ch.pipeline().addLast(new DiscardServerHandler());			// 初始化: add some handler to pipeline

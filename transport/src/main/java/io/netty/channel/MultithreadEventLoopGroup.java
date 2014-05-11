@@ -54,6 +54,7 @@ public abstract class MultithreadEventLoopGroup extends MultithreadEventExecutor
 
     @Override
     protected ThreadFactory newDefaultThreadFactory() {
+    	// 为什么要用线程的最高优先级。 TODO
         return new DefaultThreadFactory(getClass(), Thread.MAX_PRIORITY);
     }
 

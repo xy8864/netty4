@@ -319,7 +319,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     }
 
     /**
-     * 绑定地址
+     * 绑定地址正式代码开始
      * 
      * @param localAddress
      * @return
@@ -361,6 +361,8 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
         final Channel channel = channelFactory().newChannel();
         try {
         	// channel初始化，由子类实现。ServerBootstrap or Bootstrap。
+        	// 做了以下事情:
+        	// 1. option&attr属性设置  2. 加了一个默认的handler叫ServerBootstrapAcceptor(TODO)。
             init(channel);
         } catch (Throwable t) {
             channel.unsafe().closeForcibly();

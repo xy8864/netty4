@@ -414,6 +414,8 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
                 register0(promise);
             } else {
                 try {
+                	// execute方法走了父类SingleThreadEventExecutor的execute方法。
+                	// execute很和总要，就是来启动线程的。都做了以下事情!
                     eventLoop.execute(new Runnable() {
                         @Override
                         public void run() {

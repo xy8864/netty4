@@ -55,6 +55,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
 
         // 如果没有传入线程工厂，自己创建一个Netty的DefaultThreadFactory类。
         if (threadFactory == null) {
+        	// 交给子类去实现
             threadFactory = newDefaultThreadFactory();
         }
 
@@ -107,6 +108,11 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
         }
     }
 
+    /**
+     * 创建新的线程工厂。
+     * 
+     * @return
+     */
     protected ThreadFactory newDefaultThreadFactory() {
         return new DefaultThreadFactory(getClass());
     }

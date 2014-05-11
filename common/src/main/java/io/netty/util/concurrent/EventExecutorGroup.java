@@ -37,7 +37,7 @@ public interface EventExecutorGroup extends ScheduledExecutorService, Iterable<E
 
     /**
      * <pre>
-     * 		真心没看懂这里的方法到底是返回Group是在关闭中还是已经关闭。妈的。
+     * 		真心没看懂这里的方法到底是返回Group是在关闭中还是已经关闭。妈的。TODO
      * </pre>
      * 
      * Returns {@code true} if and only if this executor was started to be
