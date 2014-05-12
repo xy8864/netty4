@@ -295,6 +295,11 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
     }
 
     /**
+     * <pre>
+     * 将一个任务添加到任务队列。如果添加之前线程池已经关闭的话
+     * 则直接抛出RejectedExecutionException(拒绝)
+     * </pre>
+     * 
      * Add a task to the task queue, or throws a {@link RejectedExecutionException} if this instance was shutdown
      * before.
      */
@@ -697,13 +702,19 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
         if (inEventLoop) {
             addTask(task);
         } else {
-            startThread();
+        	// 这一步启动了之前线程池已经定义好的task。
+        	// 貌似只是在线程池没有启动的时候才去启动
+        	// 那个threadStart，保证只启动一次
+        	startThread();
             addTask(task);
+            
+            // 如果是关闭状态并且要任务移除不允许 TODO
             if (isShutdown() && removeTask(task)) {
                 reject();
             }
         }
 
+        // 这里也没明白。 我日。 TODO
         if (!addTaskWakesUp && wakesUpForTask(task)) {
             wakeup(inEventLoop);
         }
@@ -821,7 +832,7 @@ public abstract class SingleThreadEventExecutor extends AbstractEventExecutor {
      * 全局变量thread线程对象启动
      */
     private void startThread() {
-        synchronized (stateLock) {
+        synchronized (stateLock) { 
             if (state == ST_NOT_STARTED) {
                 state = ST_STARTED;
                 delayedTaskQueue.add(new ScheduledFutureTask<Void>(

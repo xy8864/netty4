@@ -43,6 +43,7 @@ public abstract class AbstractNioChannel extends AbstractChannel {
     private static final InternalLogger logger =
             InternalLoggerFactory.getInstance(AbstractNioChannel.class);
 
+    // core ???
     private final SelectableChannel ch;
     protected final int readInterestOp;
     private volatile SelectionKey selectionKey;
@@ -339,6 +340,10 @@ public abstract class AbstractNioChannel extends AbstractChannel {
         for (;;) {
             try {
             	// 在JDK的channel上注册事件 这块没有理解清楚 TODO 注册的数字值是0 是什么意思？岂不是没有事件接受
+            	// https://github.com/netty/netty/issues/1836
+            	// 作者Trustin表示这是遗留代码 为了避免JDK的bug，但是我还是不明白
+            	// Trustin的意思是后边有个判断的方法，判断体里边写了readyOps=0
+            	// 但是这里的=0怎么解释?
                 selectionKey = javaChannel().register(eventLoop().selector, 0, this);
                 return;
             } catch (CancelledKeyException e) {
